@@ -1,45 +1,64 @@
-import React from 'react'
+import React, {Component} from 'react'
+import { db } from '../firebaseConfig/firebase'
+import firebase from 'firebase/compat/app'
+
 import './App.css'
 
-export const Iniciosesion = () => {
-  return (
-    <div className='container'>
-        <div className='row'>
-            <div className='col-sm-4 offser-3 mt-5'>
-                <div className='card pt-5'>
-                    <div className='card-header'>
-                      <h3 className='text-center'>Iniciar sesion</h3>
-                    </div>
-                    <div className='card-body'>
-                    <div class="input-group mb-3">
-                    <div className='input-group-prepend'> 
-                    <span class="input-group-text" id="basic-addon1">
-                        Nombre de Usuario</span>
-                        </div>
-                    <input type="text" 
-                    class="form-control" 
-                    placeholder="Ingresa tu nombre de usuario" aria-label="Username" 
-                    aria-describedby="basic-addon2"/>
-                    </div>
+export default class Iniciosesion extends Component {
 
-                    <div class="input-group mb-2">
-                    <div className='input-group-prepend'> 
-                    <span class="input-group-text" id="basic-addon2">Contraseña</span>
-                    </div>
-                    <input type="password" class="form-control" placeholder="Ingresa tu contraseña" 
-                    aria-label="contrasenia" aria-describedby="basic-addon1"/>
-                    </div>
+  usuario = React.createRef();
+  password = React.createRef();
 
-                    <div class="d-grid gap-2">
-                    <button type="button" class="btn btn-info btn-lg btn-block"> Iniciar sesion</button>
-                    </div>
+  constructor(props){
+    super(props);
+    this.login = this.login.bind(this);
+    this.signup = this.signup.bind(this);
+  }
 
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-  )
+  login(e){
+    e.preventDefault();
+    var miusuario = this.usuario.current.value;
+    var mipassword = this.password.current.value;
+
+  firebase
+  .auth()
+  .signInWithEmailAndPassword(miusuario, mipassword)
+  .then(u => {})
+  .catch(function(error){
+    console.log(error);
+  });
 }
 
-export default Iniciosesion
+signup(e){
+  e.preventDefault();
+    var miusuario = this.usuario.current.value;
+    var mipassword = this.password.current.value;
+
+    db
+  .auth()
+  .createUserWithEmailAndPassword(miusuario, mipassword)
+  .then(u => {})
+  .catch(function(error){
+    console.log(error);
+  });
+
+}
+
+  render () {
+    return (
+    <div>
+
+<form >
+        <label htmlFor="email"> Correo </label>
+        <input type="email" id="email"
+        ref={this.usuario} />
+        <label htmlFor="password"> Contraseña </label>
+        <input type="password" id="password" 
+        ref={this.password}/>
+      <button type="submit" onClick={this.login}>Iniciar sesion
+      </button>
+</form>
+</div>
+  );
+}
+}
