@@ -23,7 +23,7 @@ const Create = () => {
     }
 
   return (
-    <div className='container'>
+    <div className='container1'>
         <div className='row'>
             <div className='col'>
                 <h3 class="text-center"> Crear nuevo usuario</h3>
@@ -65,7 +65,7 @@ const Create = () => {
                     </div>
 
                     <div className='mb-3'>
-                    <label className='form-label'>Contrasenia</label>
+                    <label className='form-label'>Contraseña</label>
                     <input 
                     value={contrasenia}
                     onChange={ (e) => setContrasenia(e.target.value)}

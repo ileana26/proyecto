@@ -1,7 +1,43 @@
 .container{
     position: absolute;
     top: 10%;
-    left: 36%;
+    left: 32%;
     height: 100%;
-    width: 100%;
+    width: 80%;
+    
+  }
+
+  .container1{
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    right: 30%;
+    height: 100%;
+    width: 90%;
+    
+  }
+
+  .container1 h3{
+    font-size: 2.5em;
+  }
+
+  .container1 label{
+    font-size: 1.5em;
+  }
+
+  .container1 button{
+    font-size: 1.5em;
+  }
+
+  .inicio{
+    height: 10em;
+    width: 10em;
+  }
+
+  .titulo1 {
+    font-size: 2em;
+  }
+
+  .fondo{
+    background:  #c6e8ed ;
   }

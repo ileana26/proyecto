@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { db } from '../firebaseConfig/firebase'
 import firebase from 'firebase/compat/app'
+import imagen from './img/iniciosesion.jpg'
 
 import './App.css'
 
@@ -47,17 +48,31 @@ signup(e){
   render () {
     return (
     <div>
-
-<form >
-        <label htmlFor="email"> Correo </label>
+<div className='container'>
+  <div class="col-sm-6">
+<div class="card text-center" >
+  <div class="card-header">
+  <img className='inicio' src={imagen}/>
+    <p className='titulo1'>Inicio de Sesión </p>
+  </div>
+  <div class="card-body">
+  <form >
+  <div class="mb-3">
+        <label htmlFor="email" class="form-label"> Correo electronico:</label> <br/>
         <input type="email" id="email"
-        ref={this.usuario} />
-        <label htmlFor="password"> Contraseña </label>
+        ref={this.usuario} class="form-control" aria-describedby="emailHelp"/>
+          </div>
+          <div class="mb-3">  
+        <label htmlFor="password" class="form-label"> Contraseña </label> <br/>
         <input type="password" id="password" 
-        ref={this.password}/>
-      <button type="submit" onClick={this.login}>Iniciar sesion
+        ref={this.password} class="form-control" /> <br/>
+      <button type="submit" onClick={this.login} class="btn btn-primary">Iniciar sesion
       </button>
+    </div>
 </form>
+  </div>
+</div>
+</div> </div>
 </div>
   );
 }

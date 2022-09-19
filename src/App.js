@@ -19,7 +19,23 @@ function App() {
     });
   }, []);
 
-  return <>{usuario ? <Home /> : <Iniciosesion setUsuario={setUsuario} />}</>;
+  return <>
+    <BrowserRouter>
+  
+    <Routes>
+          <Route path='/' element={usuario ? <Home /> : <Iniciosesion setUsuario={setUsuario} />}> </Route>
+          </Routes>
+          <Routes>
+          <Route path='/create' element={<Create/>}> </Route>
+          </Routes>
+          <Routes>
+          <Route path='/edit/:id' element={<Edit/>}> </Route>
+          </Routes>
+          <Routes>
+          <Route path='/show' element={<Show/>}> </Route>
+          </Routes>
+        </BrowserRouter>
+        </>;
 }
 
 export default App;

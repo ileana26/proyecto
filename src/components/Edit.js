@@ -41,7 +41,7 @@ export const Edit = () => {
     }, [])
 
   return (
-    <div className='container'>
+    <div className='container1'>
     <div className='row'>
         <div className='col'>
             <h3 class="text-center"> Editar usuario</h3>

@@ -58,12 +58,10 @@ const Show = () => {
     }, [])
 
   return (
-    <div className='container'>
+    <div className='container1'>
         <div className='row'>
             <div className='col'>
-                <div className='d-grid gap-2'>
-                    <Link to="/create" className='btn btn-success mt-2 mb-2'> Create</Link>
-                </div>
+                <h3 class="text-center">Alumnos registrados</h3> <br/>
                 <table class="table">
                     <thead>
                         <tr> 
@@ -90,6 +88,10 @@ const Show = () => {
                         ))}
                     </tbody>
                 </table>
+
+                <div >
+                    <Link to="/create" className='btn btn-success mt-2 mb-2'> Create</Link>
+                </div>
             </div>
 
         </div>
