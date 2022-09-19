@@ -11,6 +11,7 @@ const MySwal = withReactContent(Swal)
 
 const Show = () => {
 
+
     const [mostrar, setMostrar] = useState([])
     const userCollection = collection(db, "usuario")
 
@@ -58,6 +59,7 @@ const Show = () => {
     }, [])
 
   return (
+
     <div className='container1'>
         <div className='row'>
             <div className='col'>
@@ -90,7 +92,7 @@ const Show = () => {
                 </table>
 
                 <div >
-                    <Link to="/create" className='btn btn-success mt-2 mb-2'> Create</Link>
+                    <Link to="/crear" className='btn btn-success mt-2 mb-2'> Create</Link>
                 </div>
             </div>
 

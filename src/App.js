@@ -26,7 +26,7 @@ function App() {
           <Route path='/' element={usuario ? <Home /> : <Iniciosesion setUsuario={setUsuario} />}> </Route>
           </Routes>
           <Routes>
-          <Route path='/create' element={<Create/>}> </Route>
+          <Route path='/crear' element={<Create/>}> </Route>
           </Routes>
           <Routes>
           <Route path='/edit/:id' element={<Edit/>}> </Route>

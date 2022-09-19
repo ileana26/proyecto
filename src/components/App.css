@@ -8,12 +8,12 @@
   }
 
   .container1{
-    position: absolute;
+    position:fixed;
     top: 10%;
-    left: 5%;
+    left: 22%;
     right: 30%;
     height: 100%;
-    width: 90%;
+    width: 75%;
     
   }
 
@@ -41,3 +41,40 @@
   .fondo{
     background:  #c6e8ed ;
   }
+
+  :root{
+    --primary: ;
+    --light: #fff;
+    --grey: #efefef;
+  }
+
+  body{
+    overflow: hidden;
+    color: var(--primary);
+  }
+
+  #sidebar-container{
+    min-height: 100vh;
+    background-color: #111854 !important;
+  }
+
+  #sidebar-container .logo{
+    padding: 2rem 1.25rem;
+  }
+
+  
+  #sidebar-container .menu{
+    width: 18rem;
+  }
+
+
+  a:link, a:visited, a:active {
+    text-decoration:none;
+}
+
+
+
+i {
+  font-size: 30px;
+  padding: 1rem 1rem;
+}
