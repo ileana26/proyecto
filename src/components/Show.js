@@ -5,6 +5,7 @@ import { db } from '../firebaseConfig/firebase'
 import { async } from '@firebase/util'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { Indexh } from './Indexh'
 
 const MySwal = withReactContent(Swal)
 
@@ -59,7 +60,8 @@ const Show = () => {
     }, [])
 
   return (
-
+    <div>
+    <Indexh/>
     <div className='container1'>
         <div className='row'>
             <div className='col'>
@@ -97,6 +99,7 @@ const Show = () => {
             </div>
 
         </div>
+    </div>
     </div>
   )
 }

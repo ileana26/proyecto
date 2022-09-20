@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { getDoc, updateDoc, doc } from 'firebase/firestore'
 import { db } from '../firebaseConfig/firebase'
 import { async } from '@firebase/util'
+import { Indexh } from './Indexh'
 
 export const Edit = () => {
     const [nombre, setNombre] = useState('')
@@ -41,6 +42,8 @@ export const Edit = () => {
     }, [])
 
   return (
+    <div>
+    <Indexh/>
     <div className='container1'>
     <div className='row'>
         <div className='col'>
@@ -94,6 +97,7 @@ export const Edit = () => {
             </form>
         </div>
     </div>
+</div>
 </div>
   )
 }

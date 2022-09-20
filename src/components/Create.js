@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { collection, addDoc } from 'firebase/firestore'
 import { db } from  '../firebaseConfig/firebase'
 import { async } from '@firebase/util'
+import { Indexh } from './Indexh'
 
 
 const Create = () => {
-
+    
     const [nombre, setNombre] = useState ('')
     const [app, setApp] = useState ('')
     const [apm, setApm] = useState ('')
@@ -23,10 +24,13 @@ const Create = () => {
     }
 
   return (
+    <div>
+        <Indexh/>
     <div className='container1'>
         <div className='row'>
             <div className='col'>
                 <h3 class="text-center"> Crear nuevo usuario</h3>
+                
                 <form onSubmit={store}>
                     <div className='mb-3'>
                     <label className='form-label'>Nombre</label>
@@ -75,8 +79,12 @@ const Create = () => {
 
                     <button type="submit" className='btn btn-primary'>Agregar</button>
                 </form>
+                
             </div>
         </div>
+    </div>
+
+
     </div>
   )
 }

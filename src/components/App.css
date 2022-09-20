@@ -17,15 +17,25 @@
     
   }
 
-  .container1 h3{
+  .container2{
+    position:absolute;
+    top: 2%;
+    left: 22%;
+    right: 30%;
+    height: 100%;
+    width: 75%;
+    
+  }
+
+  .container1, .container2 h3{
     font-size: 2.5em;
   }
 
-  .container1 label{
-    font-size: 1.5em;
+  .container1, .container2 label{
+    font-size: 1.5em; 
   }
 
-  .container1 button{
+  .container1 .container2 button{
     font-size: 1.5em;
   }
 
@@ -78,3 +88,4 @@ i {
   font-size: 30px;
   padding: 1rem 1rem;
 }
+
