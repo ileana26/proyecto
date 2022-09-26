@@ -9,7 +9,7 @@ export const Indexh = () => {
       <div class="d-flex">
         <div id="sidebar-container" class="bg-primary">
           <div class="logo">
-            <h4 class="titulo2"> <a href="/home">Proyecto</a></h4>
+            <h4 class="titulo2"> <a href="/">Proyecto</a></h4>
           </div>
           <div class="menu">
             <a href="/crear" class="d-block text-light p-3">Registrar nuevo usuario</a><br/>
