@@ -4,6 +4,8 @@ import firebase from 'firebase/compat/app'
 import IndexAsesor from './IndexAsesor';
 import facultad from './img/iti.jpg'
 import archivo from './img/archivo.jpg'
+import veractividades from './img/veractividades.png'
+import usuario from './img/usuario.jpg'
 
 const AsesorHome = () => {
     const cerrarSesion = () => {
@@ -55,13 +57,13 @@ const AsesorHome = () => {
     <div class="card-body">
     <a href="/asesorHome"> 
     <h3 class="card-title">Ver actividades</h3>
-    <img src={archivo} width="30%" alt="..."/>
+    <img src={veractividades} width="30%" alt="..."/>
     </a>
     </div>
     <div class="card-body">
     <a href="/asesorHome"> 
     <h3 class="card-title">Ver practicantes</h3>
-    <img src={archivo} width="30%" alt="..."/>
+    <img src={usuario} width="30%" alt="..."/>
     </a>
     </div>
     </section>
