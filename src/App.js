@@ -5,6 +5,7 @@ import Show from "./components/Show";
 import Create from "./components/Create"
 import  Edit from "./components/Edit";
 import Home from './components/Home'
+import AlumnoHome from "./components/AlumnoHome";
 import Iniciosesion from './components/Iniciosesion'
 import { db } from './firebaseConfig/firebase'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
@@ -33,6 +34,9 @@ function App() {
           </Routes>
           <Routes>
           <Route path='/show' element={<Show/>}> </Route>
+          </Routes>
+          <Routes>
+          <Route path='/alumnoHome' element={<AlumnoHome/>}> </Route>
           </Routes>
         </BrowserRouter>
         </>;
