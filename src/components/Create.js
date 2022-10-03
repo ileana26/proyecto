@@ -1,27 +1,50 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { collection, addDoc } from 'firebase/firestore'
-import { db } from  '../firebaseConfig/firebase'
+import db from  '../firebaseConfig/firebase'
 import { async } from '@firebase/util'
 import { Indexh } from './Indexh'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getFirestore, doc, setDoc } from 'firebase/firestore'
+import { initializeApp } from "firebase/app";
+
+const auth = getAuth(db);
 
 
-const Create = () => {
+    const Create = () => {
+        const firestore = getFirestore(db);
+
+
+        async function registrar(nombre, app, apm, email, contrasenia, rol){
     
-    const [nombre, setNombre] = useState ('')
-    const [app, setApp] = useState ('')
-    const [apm, setApm] = useState ('')
-    const [nombreusuario, setNombreUsuario] = useState ('')
-    const [contrasenia, setContrasenia] = useState ('')
-    const navigate = useNavigate()
+            const infousuario = await createUserWithEmailAndPassword(
+                auth, email, contrasenia).then((usuarioFirebase)=>{
+                return usuarioFirebase;
+            });
+            console.log(infousuario.user.uid);
+    
+    
+           const docRef = doc(firestore, `usuario/${infousuario.user.uid}`)
+           setDoc(docRef, {nombre: nombre, app: app, apm: apm, email: email, conntrasenia: contrasenia, rol: rol, });
+        }
 
-    const usuarioCollection = collection(db, "usuario")
 
-    const store = async(e) =>{
-        e.preventDefault()
-        await addDoc (usuarioCollection, {nombre: nombre, app: app, apm: apm, nombreusuario: nombreusuario, contrasenia: contrasenia})
-        navigate('/')
+    function store (e) {
+        e.preventDefault();
+
+        const nombre = e.target.elements.nombre.value;
+        const app = e.target.elements.app.value;
+        const apm = e.target.elements.apm.value;
+        const email = e.target.elements.email.value;
+        const contrasenia = e.target.elements.contrasenia.value;
+        const rol = e.target.elements.rol.value;
+
+        console.log("submit", nombre, app, apm, email, rol);
+
+        registrar(nombre, app, apm, email, contrasenia, rol);
+
     }
+    
 
   return (
     <div>
@@ -35,8 +58,7 @@ const Create = () => {
                     <div className='mb-3'>
                     <label className='form-label'>Nombre</label>
                     <input 
-                    value={nombre}
-                    onChange={ (e) => setNombre(e.target.value)}
+                    id = "nombre"
                     type="text"
                     className='form-control'/>
                     </div>
@@ -44,8 +66,7 @@ const Create = () => {
                     <div className='mb-3'>
                     <label className='form-label'>Apellido paterno</label>
                     <input 
-                    value={app}
-                    onChange={ (e) => setApp(e.target.value)}
+                    id = "app"
                     type="text"
                     className='form-control'/>
                     </div>
@@ -53,17 +74,15 @@ const Create = () => {
                     <div className='mb-3'>
                     <label className='form-label'>Apellido materno</label>
                     <input 
-                    value={apm}
-                    onChange={ (e) => setApm(e.target.value)}
+                    id = "apm"
                     type="text"
                     className='form-control'/>
                     </div>
 
                     <div className='mb-3'>
-                    <label className='form-label'> Nombre de usuario</label>
+                    <label className='form-label'>Email</label>
                     <input 
-                    value={nombreusuario}
-                    onChange={ (e) => setNombreUsuario(e.target.value)}
+                    id = "email"
                     type="text"
                     className='form-control'/>
                     </div>
@@ -71,10 +90,17 @@ const Create = () => {
                     <div className='mb-3'>
                     <label className='form-label'>Contraseña</label>
                     <input 
-                    value={contrasenia}
-                    onChange={ (e) => setContrasenia(e.target.value)}
+                    id = "contrasenia"
                     type="text"
                     className='form-control'/>
+                    </div>
+
+                    <div className='mb-3'>
+                    <label className='form-label'>Tipo de usuario</label>
+                    <select className='form-control' id = "rol">
+                        <option id="rol">Asesor</option>
+                        <option id="rol">Practicante</option>
+                        </select> 
                     </div>
 
                     <button type="submit" className='btn btn-primary'>Agregar</button>
