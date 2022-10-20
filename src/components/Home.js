@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import fire from '../firebaseConfig/firebase'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import {Link} from "react-router-dom";
 import firebase from 'firebase/compat/app'
 import { Indexh } from './Indexh'
 import AlumnoHome from './AlumnoHome';
@@ -13,8 +16,7 @@ function Home ({usuario}) {
   
     return (
 <div>
-   
-  {usuario.rol == "Administrador" ?  <AdmiHome/> : <AlumnoHome/> }
+{usuario.rol == "Practicante" ?<AlumnoHome/> : <AsesorHome/>} 
   </div>
 
     );

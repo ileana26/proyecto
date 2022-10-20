@@ -1,51 +1,93 @@
 import React, {Component} from 'react'
-import { db } from '../firebaseConfig/firebase'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import {Link} from "react-router-dom";
+import  db  from '../firebaseConfig/firebase'
 import firebase from 'firebase/compat/app'
 import imagen from './img/iniciosesion.jpg'
 
 import './App.css'
 
-export default class Iniciosesion extends Component {
+const auth = getAuth(db);
+var Error = "";
 
-  usuario = React.createRef();
-  password = React.createRef();
+function Iniciosesion() {
 
-  constructor(props){
-    super(props);
-    this.login = this.login.bind(this);
-    this.signup = this.signup.bind(this);
+   function iniciarSesion( email, password){
+      return signInWithEmailAndPassword(auth, email, password)
+      
+    }
+
+  function onSubmit() {
+
+      const db = getFirestore();
+      const user = auth.currentUser;
+      console.log("uiddd" + user.uid);
+
+      if (user !== null) {
+
+          const docRef = doc(db, "usuario", user.uid);
+
+          getDoc(docRef).then((doc) => {
+              console.log(doc.data(), doc.data().correo, doc.data().rol);
+              const roldata = doc.data().rol;
+              if (roldata === "Administrador") {
+                 window.location.href = "/AdmiHome";
+              } else if (roldata === "Practicante") {
+                  window.location.href="/AlumnoHome";
+              } else if (roldata === "Asesor") {
+                  window.location.href = "/AsesorHome";
+              } else {
+          
+                  
+              }
+          })
+      }
   }
 
-  login(e){
-    e.preventDefault();
-    var miusuario = this.usuario.current.value;
-    var mipassword = this.password.current.value;
+  async function submitHandler(e) {
+      e.preventDefault();
 
-  firebase
-  .auth()
-  .signInWithEmailAndPassword(miusuario, mipassword)
-  .then(u => {})
-  .catch(function(error){
-    console.log(error);
-  });
-}
+      const email = e.target.elements.email.value;
+      const pass = e.target.elements.password.value;
+      console.log("submit", email, pass);
 
-signup(e){
-  e.preventDefault();
-    var miusuario = this.usuario.current.value;
-    var mipassword = this.password.current.value;
+      await iniciarSesion(email, pass).then(() => {
+          onSubmit()
+      }).catch(error => {
+          console.log("entramos al catch, error: ", error)
+          switch (error.code) {
+              case 'auth/invalid-email':
+                  console.log();
+                  Error = "Email invalido";
+                 
+                  break;
 
-    db
-  .auth()
-  .createUserWithEmailAndPassword(miusuario, mipassword)
-  .then(u => {})
-  .catch(function(error){
-    console.log(error);
-  });
+              case 'auth/user-disabled':
+                  console.log("Este usuario ha sido desabilitado");
+                  Error = "Este usuario ha sido desabilitado";
+                 
+                  break;
 
-}
+              case 'auth/user-not-found':
+                  console.log("Usuario no encontrado");
+                  Error = "Usuario no encontrado";
+                
+                  break;
 
-  render () {
+              case 'auth/wrong-password':
+                  console.log("Contraseña incorrecta");
+               
+                  break;
+
+              default:
+                  
+                  break;
+          }
+      })
+
+  }
+
     return (
     <div>
 <div className='container'>
@@ -56,18 +98,15 @@ signup(e){
     <p className='titulo1'>Inicio de Sesión </p>
   </div>
   <div class="card-body">
-  <form >
+  <form className="formulario" onSubmit={submitHandler} >
   <div class="mb-3">
         <label htmlFor="email" class="form-label"> Correo electronico:</label> <br/>
-        <input type="email" id="email"
-        ref={this.usuario} class="form-control" aria-describedby="emailHelp"/>
+        <input type="email" id="email" name="email" class="form-control" aria-describedby="emailHelp"/>
           </div>
           <div class="mb-3">  
         <label htmlFor="password" class="form-label"> Contraseña </label> <br/>
-        <input type="password" id="password" 
-        ref={this.password} class="form-control" /> <br/>
-      <button type="submit" onClick={this.login} class="btn btn-primary">Iniciar sesion
-      </button>
+        <input type="password" id="password" class="form-control" /> <br/>
+        <input type="submit" className="fadeIn fourth" value="Entrar" />
     </div>
 </form>
   </div>
@@ -75,5 +114,6 @@ signup(e){
 </div> </div>
 </div>
   );
+
 }
-}
+export default Iniciosesion

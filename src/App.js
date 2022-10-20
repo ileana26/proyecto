@@ -1,22 +1,24 @@
-import React, {Component, useEffect} from "react";
+import React, {Component, useEffect, useState} from "react";
 import "firebase/auth";
 import firebase from 'firebase/compat/app'
 import Show from "./components/Show";
 import Create from "./components/Create"
 import  Edit from "./components/Edit";
-import Home from './components/Home'
+import Iniciosesion from './components/Iniciosesion'
 import AlumnoHome from "./components/AlumnoHome";
 import AsesorHome from "./components/AsesorHome";
-import Iniciosesion from './components/Iniciosesion'
 import db  from './firebaseConfig/firebase'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { getAuth, onAuthStateChanged} from "firebase/auth";
 import { getFirestore, doc, getDoc } from 'firebase/firestore'
+import VerAlumnosAsesor from "./components/VerAlumnosAsesor";
+import AdmiHome from "./components/AdmiHome";
 
 const auth = getAuth(db);
 const firestore = getFirestore(db);
 
 function App() {
+ 
   const [usuario, setUsuario] = React.useState(null);
 
 
@@ -55,7 +57,7 @@ function App() {
   return <>
     <BrowserRouter>
     <Routes>
-          <Route path='/' element= {usuario ? <Home usuario={usuario}/> : <Iniciosesion/>}> </Route>
+          <Route path='/iniciosesion' element={<Iniciosesion/>}> </Route>
           </Routes>
           <Routes>
           <Route path='/crear' element={<Create/>}> </Route>
@@ -72,6 +74,13 @@ function App() {
           <Routes>
           <Route path='/asesorHome' element={<AsesorHome/>}> </Route>
           </Routes>
+          <Routes>
+          <Route path='/alumnosAsesor' element={<VerAlumnosAsesor/>}> </Route>
+          </Routes>
+          <Routes>
+          <Route path='/admiHome' element={<AdmiHome/>}> </Route>
+          </Routes>
+          
         </BrowserRouter>
         </>;
 }

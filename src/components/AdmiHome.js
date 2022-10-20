@@ -5,11 +5,11 @@ import { Indexh } from './Indexh'
 import AlumnoHome from './AlumnoHome';
 import AsesorHome from './AsesorHome';
 
-function AdmiHome ({usuario}) {
-    const cerrarSesion = () => {
-      firebase.auth().signOut();
-    };
-  
+const AdmiHome = () => {
+  const cerrarSesion = () => {
+    firebase.auth().signOut();
+  };
+
     return (
 <div>
     <Indexh/>
