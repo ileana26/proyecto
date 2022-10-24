@@ -18,9 +18,6 @@ const AdmiHome = () => {
         <nav class="navbar bg-light">
   <div class="container-fluid">
     <a class="navbar-brand"></a>
-    <form class="d-flex" role="search">
-    <button onClick={cerrarSesion} className="btncerrar" class="btn btn-outline-danger text-center">Cerrar Sesión</button>
-    </form>
   </div>
 </nav>
 

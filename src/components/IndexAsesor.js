@@ -9,7 +9,7 @@ export const IndexAsesor = () => {
       <div class="d-flex">
         <div id="sidebar-container" class="bg-primary">
           <div class="logo">
-            <h4 class="titulo2"> <a href="/admiHome">Proyecto</a></h4>
+            <h4 class="titulo2"> <a href="/">Cerrar Sesion</a></h4>
           </div>
           <div class="menu">
             <a href="/asesorHome" class="d-block text-light p-3">Inicio del sitio</a><br/>

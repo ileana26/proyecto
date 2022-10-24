@@ -57,7 +57,7 @@ function App() {
   return <>
     <BrowserRouter>
     <Routes>
-          <Route path='/iniciosesion' element={<Iniciosesion/>}> </Route>
+          <Route path='/' element={<Iniciosesion/>}> </Route>
           </Routes>
           <Routes>
           <Route path='/crear' element={<Create/>}> </Route>
