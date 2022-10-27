@@ -58,7 +58,7 @@ const AsesorHome = () => {
     </a>
     </div>
     <div class="card-body">
-    <a href="/asesorHome"> 
+    <a href="/alumnosAsesor"> 
     <h3 class="card-title">Ver practicantes</h3>
     <img src={usuario} width="30%" alt="..."/>
     </a>

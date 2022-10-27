@@ -13,6 +13,7 @@ import { getAuth, onAuthStateChanged} from "firebase/auth";
 import { getFirestore, doc, getDoc } from 'firebase/firestore'
 import VerAlumnosAsesor from "./components/VerAlumnosAsesor";
 import AdmiHome from "./components/AdmiHome";
+import AsignrActividadAsesor from "./components/AsignrActividadAsesor"
 
 const auth = getAuth(db);
 const firestore = getFirestore(db);
@@ -79,6 +80,9 @@ function App() {
           </Routes>
           <Routes>
           <Route path='/admiHome' element={<AdmiHome/>}> </Route>
+          </Routes>
+          <Routes>
+          <Route path='/asignarActividad' element={<AsignrActividadAsesor/>}> </Route>
           </Routes>
           
         </BrowserRouter>

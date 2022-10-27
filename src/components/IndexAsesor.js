@@ -15,7 +15,7 @@ export const IndexAsesor = () => {
             <a href="/asesorHome" class="d-block text-light p-3">Inicio del sitio</a><br/>
           </div>
           <div class="menu">
-            <a href="/show" class="d-block text-light p-3">Asignar actividad</a> <br/>
+            <a href="/asignarActividad" class="d-block text-light p-3">Asignar actividad</a> <br/>
           </div>
           <div class="menu">
             <a href="/show" class="d-block text-light p-3">Ver actividades</a> <br/>
