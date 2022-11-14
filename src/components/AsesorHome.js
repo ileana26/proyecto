@@ -46,13 +46,13 @@ const AsesorHome = () => {
 
     <section className='actividades'>
     <div class="card-body">
-    <a href="/asesorHome"> 
+    <a href="/asignarActividad"> 
     <h3 class="card-title">Asignar actividades</h3>
     <img src={archivo} width="30%" alt="..."/>
     </a>
     </div>
     <div class="card-body">
-    <a href="/asesorHome"> 
+    <a href="/showActividades"> 
     <h3 class="card-title">Ver actividades</h3>
     <img src={veractividades} width="30%" alt="..."/>
     </a>

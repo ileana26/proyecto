@@ -14,6 +14,8 @@ import { getFirestore, doc, getDoc } from 'firebase/firestore'
 import VerAlumnosAsesor from "./components/VerAlumnosAsesor";
 import AdmiHome from "./components/AdmiHome";
 import AsignrActividadAsesor from "./components/AsignrActividadAsesor"
+import EditarActividad from "./components/EditarActividad";
+import HowActividades from './components/HowActividades';
 
 const auth = getAuth(db);
 const firestore = getFirestore(db);
@@ -84,7 +86,12 @@ function App() {
           <Routes>
           <Route path='/asignarActividad' element={<AsignrActividadAsesor/>}> </Route>
           </Routes>
-          
+          <Routes>
+          <Route path='/editarActividad/:id' element={<EditarActividad/>}> </Route>
+          </Routes>
+          <Routes>
+          <Route path='/showActividades' element={<HowActividades/>}> </Route>
+          </Routes>
         </BrowserRouter>
         </>;
 }

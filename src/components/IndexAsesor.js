@@ -18,7 +18,7 @@ export const IndexAsesor = () => {
             <a href="/asignarActividad" class="d-block text-light p-3">Asignar actividad</a> <br/>
           </div>
           <div class="menu">
-            <a href="/show" class="d-block text-light p-3">Ver actividades</a> <br/>
+            <a href="/showActividades" class="d-block text-light p-3">Ver actividades</a> <br/>
           </div>
           <div class="menu">
             <a href="/alumnosAsesor" class="d-block text-light p-3">Ver alumnos</a> <br/>

@@ -1,41 +1,33 @@
-import React from 'react'
-import IndexAsesor from './IndexAsesor';
-import {useState} from 'react'
-import db  from '../firebaseConfig/firebase';
-import { getFirestore } from "@firebase/firestore";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Radio, RadioGroup} from 'react-radio-group'
-import { collection, getDocs, query, doc, getDoc, addDoc, deleteDoc, updateDoc, setDoc, where } from "firebase/firestore";
-import { useEffect } from 'react';
+import { getDoc, updateDoc, doc } from 'firebase/firestore'
+import { db } from '../firebaseConfig/firebase'
+import { async } from '@firebase/util'
+import IndexAsesor from './IndexAsesor';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
+const MySwal = withReactContent(Swal)
 
-const db2 = getFirestore(db);
+const EditarActividad = () => {
 
-const AsignrActividadAsesor = () => {
-
-  
-  const [nombreActi, setNombreActi] = useState('')
-  const [descripcion, setDescripcion] = useState ('')
-  const [fechainicio, setFechainicio] = useState ('')
-  const [fechafinal, setFechafinal] = useState ('')
-  const [estado, setEstado] = useState ('')
- 
-  const navigate = useNavigate()
+    const [nombreActi, setNombreActi] = useState('')
+    const [descripcion, setDescripcion] = useState ('')
+    const [fechainicio, setFechainicio] = useState ('')
+    const [fechafinal, setFechafinal] = useState ('')
+    const [estado, setEstado] = useState ('')
+    
+    const navigate = useNavigate()
     const {id} = useParams()
 
     const update = async (e) => {
-         try {
-      const usuarion = doc(db2, "actividad")
+        
+        e.preventDefault()
+        const usuarion = doc(db, "actividad", id)
         const data = {nombreActi: nombreActi, descripcion: descripcion, fechainicio: fechainicio, fechafinal: fechafinal, estado: estado}
-        await addDoc(usuarion, data)
+        await updateDoc(usuarion, data)
         navigate('/asesorHome')
     }
-  catch{
-
-  }
-}
 
     const getUserid = async (id) => {
         const usuarion = await getDoc(doc(db, "actividad", id))
@@ -54,13 +46,14 @@ const AsignrActividadAsesor = () => {
     useEffect( () => {
         getUserid(id)
     }, [])
+
   return (
     <div>
-    <IndexAsesor/>
-    <div className='container1'>
+          <IndexAsesor/>
+          <div className='container1'>
     <div className='row'>
         <div className='col'>
-            <h3 class="text-center"> Agregar Actividad</h3>
+            <h3 class="text-center"> Editar Actividad</h3>
             <form onSubmit={update}>
             <div className='mb-3'>
                     <label className='form-label'>Actividad</label>
@@ -106,7 +99,7 @@ const AsignrActividadAsesor = () => {
                     type="text"
                     className='form-control'/>
                     </div>
-                <button type="submit" className='btn btn-primary'>Agregar</button>
+                <button type="submit" className='btn btn-primary'>Editar</button>
             </form>
         </div>
     </div>
@@ -115,4 +108,4 @@ const AsignrActividadAsesor = () => {
   )
 }
 
-export default AsignrActividadAsesor
+export default EditarActividad
