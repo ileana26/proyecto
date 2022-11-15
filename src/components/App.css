@@ -98,3 +98,9 @@ i {
   text-align: center;
   display: flex;
 }
+
+#boton2{
+  left: 20%;
+  width: 50%;
+  position:absolute;
+}

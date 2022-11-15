@@ -3,24 +3,25 @@ import IndexAsesor from './IndexAsesor';
 import {useState} from 'react'
 import db  from '../firebaseConfig/firebase';
 import { getFirestore } from "@firebase/firestore";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate, useParams } from 'react-router-dom'
 import { Radio, RadioGroup} from 'react-radio-group'
 import { collection, getDocs, query, doc, getDoc, addDoc, deleteDoc, updateDoc, setDoc, where } from "firebase/firestore";
 import { useEffect } from 'react';
-
+import {DatePicker, TimePicker} from '@material-ui/pickers';
 
 const db2 = getFirestore(db);
 
 const AsignrActividadAsesor = () => {
 
-  
   const [nombreActi, setNombreActi] = useState('')
   const [descripcion, setDescripcion] = useState ('')
-  const [fechainicio, setFechainicio] = useState ('')
-  const [fechafinal, setFechafinal] = useState ('')
+  const [fechainicio, setFechainicio] = useState(new Date());
+  const [fechafinal, setFechafinal] = useState(new Date());
+  const [horaFinal, setHorafinal] = useState();
   const [estado, setEstado] = useState ('')
+  console.log(fechainicio);
+  console.log(fechafinal);
  
   const navigate = useNavigate()
     const {id} = useParams()
@@ -28,7 +29,8 @@ const AsignrActividadAsesor = () => {
     const update = async (e) => {
          try {
       const usuarion = doc(db2, "actividad")
-        const data = {nombreActi: nombreActi, descripcion: descripcion, fechainicio: fechainicio, fechafinal: fechafinal, estado: estado}
+        const data = {nombreActi: nombreActi, descripcion: descripcion, fechainicio: fechainicio, fechafinal: fechafinal, horaFinal: horaFinal, 
+          estado: estado}
         await addDoc(usuarion, data)
         navigate('/asesorHome')
     }
@@ -45,6 +47,7 @@ const AsignrActividadAsesor = () => {
             setDescripcion(usuarion.data().descripcion)
             setFechainicio(usuarion.data().fechainicio)
             setFechafinal(usuarion.data().fechafinal)
+            setHorafinal(usuarion.data().horaFinal)
             setEstado(usuarion.data().estado)
         }else{
             console.log('Actividad no disponible')
@@ -81,32 +84,33 @@ const AsignrActividadAsesor = () => {
                     </div>
 
                     <div className='mb-3'>
-                    <label className='form-label'>Fecha de inicio</label>
-                    <input 
-                    value={fechainicio}
-                    onChange={ (e) => setFechainicio(e.target.value)}
-                    type="text"
-                    className='form-control'/>
+                    <label className='form-label'>Fecha de inicio</label><br></br> 
+                    <DatePicker className='container-1' value={fechainicio} onChange={setFechainicio}>
+                    </DatePicker>
                     </div>
 
                     <div className='mb-3'>
-                    <label className='form-label'> Fecha de termino</label>
-                    <input 
-                    value={fechafinal}
-                    onChange={ (e) => setFechafinal(e.target.value)}
-                    type="text"
-                    className='form-control'/>
+                    <label className='form-label'> Fecha de termino</label> <br></br> 
+                    <DatePicker value={fechafinal} onChange={setFechafinal}>
+                    </DatePicker>
+                    </div>
+
+                    <div className='mb-3'>
+                    <label className='form-label'>Hora de termino</label><br></br> 
+                    <TimePicker value={horaFinal} onChange={setHorafinal}>
+                    </TimePicker>
+                   
                     </div>
 
                     <div className='mb-3'>
                     <label className='form-label'>Estado</label>
-                    <input 
-                    value={estado}
-                    onChange={ (e) => setEstado(e.target.value)}
-                    type="text"
-                    className='form-control'/>
+                    <form>
+                       <input type="radio" name="Disponible" value={estado} onChange={setEstado}/> Disponible
+                       <p></p>
+                       <input type="radio" name="Disponible" value={estado} onChange={setEstado}/> Cerrada
+                    </form>
                     </div>
-                <button type="submit" className='btn btn-primary'>Agregar</button>
+                <button type="submit" id="boton2" className='btn btn-primary'>Agregar</button>
             </form>
         </div>
     </div>
