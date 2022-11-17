@@ -96,7 +96,7 @@ const ShowActividades = () => {
                 </table>
 
                 <div >
-                    <Link to="/crear" className='btn btn-success mt-2 mb-2'> Create</Link>
+                    <Link to="/asignarActividad" className='btn btn-success mt-2 mb-2'> Create</Link>
                 </div>
             </div>
 

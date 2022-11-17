@@ -44,7 +44,6 @@ const EditarActividad  = () => {
         await updateDoc(usuarion, data)
         navigate('/showActividades')
 
-
     }
 
     const getUserid = async (id) => {
@@ -108,7 +107,7 @@ const EditarActividad  = () => {
 
                     <div className='mb-3'>
                     <label className='form-label'>Hora de termino</label><br></br> 
-                    <TimePicker value={horaFinal} onChange={setHorafinal.toString()}>
+                    <TimePicker value={horaFinal} onChange={setHorafinal}>
                     </TimePicker>
                    
                     </div>
@@ -122,7 +121,7 @@ const EditarActividad  = () => {
                         <div className='dropdown-content'>
                             {options.map((option) => (
                                 <div onClick={(e) => {
-                                    setSelected(option)
+                                    setSelected(option);
                                     setEstado(option);
                                     setIsActive(false);
                                 }}
