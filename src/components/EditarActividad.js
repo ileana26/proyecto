@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getDoc, updateDoc, doc } from 'firebase/firestore'
 import { db } from '../firebaseConfig/firebase'
@@ -8,22 +8,26 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import {TimePicker} from '@material-ui/pickers';
 import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import './boton';
+
 
 const MySwal = withReactContent(Swal)
 
-const EditarActividad = () => {
-
+const EditarActividad  = () => {
 
 
     const [nombreActi, setNombreActi] = useState('')
     const [startDate, setStartDate] = useState(new Date());
+    const [startDate2, setStartDate2] = useState(new Date());
     const [descripcion, setDescripcion] = useState ('')
-    const [fechafinal, setFechafinal] = useState(new Date());
     const [horaFinal, setHorafinal] = useState();
-    const [estado, setEstado] = useState ('')
+    const [estado, setEstado] = useState ('');
 
-    console.log(fechafinal);
     console.log(horaFinal);
+    console.log(estado);
     
     const navigate = useNavigate()
     const {id} = useParams()
@@ -32,9 +36,11 @@ const EditarActividad = () => {
         
         e.preventDefault()
         const usuarion = doc(db, "actividad", id)
-        const data = {nombreActi: nombreActi, descripcion: descripcion, fechainicio: startDate.toString(), 
-            fechafinal: fechafinal.toString(),
-            horaFinal: horaFinal.toString(), estado: estado}
+        const data = {nombreActi: nombreActi, descripcion: descripcion, 
+            fechainicio: startDate.toString(), 
+            fechafinal: startDate2.toString(),
+            horaFinal: horaFinal.toString(), 
+            estado: estado.toString()}
         await updateDoc(usuarion, data)
         navigate('/showActividades')
 
@@ -48,7 +54,7 @@ const EditarActividad = () => {
             setNombreActi(usuarion.data().nombreActi)
             setDescripcion(usuarion.data().descripcion)
             setStartDate(usuarion.data().startDate)
-            setFechafinal(usuarion.data().fechafinal)
+            setStartDate2(usuarion.data().startDate2)
             setHorafinal(usuarion.data().horaFinal)
             setEstado(usuarion.data().estado)
         }else{
@@ -59,6 +65,10 @@ const EditarActividad = () => {
     useEffect( () => {
         getUserid(id)
     }, [])
+
+    const [isActive, setIsActive] = useState(false);
+    const [selected, setSelected] = useState();
+    const options = ["Disponible", "Cerrada"];
 
   return (
     <div>
@@ -93,25 +103,38 @@ const EditarActividad = () => {
 
                     <div className='mb-3'>
                     <label className='form-label'> Fecha de termino</label> <br></br> 
-                    <DatePicker value={fechafinal} onChange={setFechafinal}>
-                    </DatePicker>
+                    <DatePicker selected={startDate2} onChange={(date:Date) => setStartDate2(date)} />
                     </div>
 
                     <div className='mb-3'>
                     <label className='form-label'>Hora de termino</label><br></br> 
-                    <TimePicker value={horaFinal} onChange={setHorafinal}>
+                    <TimePicker value={horaFinal} onChange={setHorafinal.toString()}>
                     </TimePicker>
                    
                     </div>
 
-                    <div className='mb-3'>
-                    <label className='form-label'>Estado</label>
-                    <form>
-                       <input type="radio" name="Disponible" value="Disponible" onChange={setEstado}/> Disponible
-                       <p></p>
-                       <input type="radio" name="Cerrada" value="Cerrada" onChange={setEstado}/> Cerrada
-                    </form>
+                    <div className='dropdown'>
+                    <label className='form-label'>Estado de la actividad</label><br></br> 
+                        <div className='dropdown-btn' onClick={(e) => setIsActive(!isActive)}>{selected}</div>
+                        <span className='fas fa-caret-down'></span>
                     </div>
+                    {isActive && (
+                        <div className='dropdown-content'>
+                            {options.map((option) => (
+                                <div onClick={(e) => {
+                                    setSelected(option)
+                                    setEstado(option);
+                                    setIsActive(false);
+                                }}
+                                className="dropdown-item"> 
+                        {option}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+<br></br> 
+
+
                 <button type="submit" className='btn btn-primary'>Editar</button>
             </form>
         </div>
