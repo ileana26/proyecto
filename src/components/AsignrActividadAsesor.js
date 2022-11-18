@@ -8,45 +8,47 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Radio, RadioGroup} from 'react-radio-group'
 import { collection, getDocs, query, doc, getDoc, addDoc, deleteDoc, updateDoc, setDoc, where } from "firebase/firestore";
 import { useEffect } from 'react';
-import {DatePicker, TimePicker} from '@material-ui/pickers';
+import {TimePicker} from '@material-ui/pickers';
+import DatePicker from "react-datepicker";
 
-const db2 = getFirestore(db);
 
 const AsignrActividadAsesor = () => {
 
+  
+const db2 = getFirestore();
+
   const [nombreActi, setNombreActi] = useState('')
-  const [descripcion, setDescripcion] = useState ('')
-  const [fechainicio, setFechainicio] = useState(new Date());
-  const [fechafinal, setFechafinal] = useState(new Date());
-  const [horaFinal, setHorafinal] = useState();
-  const [estado, setEstado] = useState ('')
-  console.log(fechainicio);
-  console.log(fechafinal);
+    const [startDate, setStartDate] = useState(new Date());
+    const [startDate2, setStartDate2] = useState(new Date());
+    const [descripcion, setDescripcion] = useState ('')
+    const [horaFinal, setHorafinal] = useState();
+    const [estado, setEstado] = useState ('');
+    
+  console.log(startDate);
+  console.log(startDate2);
  
   const navigate = useNavigate()
     const {id} = useParams()
 
     const update = async (e) => {
-         try {
       const usuarion = doc(db2, "actividad")
-        const data = {nombreActi: nombreActi, descripcion: descripcion, fechainicio: fechainicio, fechafinal: fechafinal, horaFinal: horaFinal, 
-          estado: estado}
+        const data = {nombreActi: nombreActi, descripcion: descripcion, 
+          fechainicio: startDate.toString(), 
+          fechafinal: startDate2.toString(),
+          horaFinal: horaFinal.toString(), 
+          estado: estado.toString()}
         await addDoc(usuarion, data)
         navigate('/asesorHome')
-    }
-  catch{
-
-  }
 }
 
     const getUserid = async (id) => {
-        const usuarion = await getDoc(doc(db, "actividad", id))
+        const usuarion = await getDoc(doc(db2, "actividad", id))
         if(usuarion.exists()){
             console.log(usuarion.data)
             setNombreActi(usuarion.data().nombreActi)
             setDescripcion(usuarion.data().descripcion)
-            setFechainicio(usuarion.data().fechainicio)
-            setFechafinal(usuarion.data().fechafinal)
+            setStartDate(usuarion.data().startDate)
+            setStartDate2(usuarion.data().startDate2)
             setHorafinal(usuarion.data().horaFinal)
             setEstado(usuarion.data().estado)
         }else{
@@ -57,6 +59,11 @@ const AsignrActividadAsesor = () => {
     useEffect( () => {
         getUserid(id)
     }, [])
+
+    const [isActive, setIsActive] = useState(false);
+    const [selected, setSelected] = useState();
+    const options = ["Disponible", "Cerrada"];
+
   return (
     <div>
     <IndexAsesor/>
@@ -85,14 +92,12 @@ const AsignrActividadAsesor = () => {
 
                     <div className='mb-3'>
                     <label className='form-label'>Fecha de inicio</label><br></br> 
-                    <DatePicker className='container-1' value={fechainicio} onChange={setFechainicio}>
-                    </DatePicker>
+                    <DatePicker selected={startDate} onChange={(date:Date) => setStartDate(date)} />
                     </div>
 
                     <div className='mb-3'>
                     <label className='form-label'> Fecha de termino</label> <br></br> 
-                    <DatePicker value={fechafinal} onChange={setFechafinal}>
-                    </DatePicker>
+                    <DatePicker selected={startDate2} onChange={(date:Date) => setStartDate2(date)} />
                     </div>
 
                     <div className='mb-3'>
@@ -102,14 +107,26 @@ const AsignrActividadAsesor = () => {
                    
                     </div>
 
-                    <div className='mb-3'>
-                    <label className='form-label'>Estado</label>
-                    <form>
-                       <input type="radio" name="Disponible" value={estado} onChange={setEstado}/> Disponible
-                       <p></p>
-                       <input type="radio" name="Disponible" value={estado} onChange={setEstado}/> Cerrada
-                    </form>
+                    <div className='dropdown'>
+                    <label className='form-label'>Estado de la actividad</label><br></br> 
+                        <div className='dropdown-btn' onClick={(e) => setIsActive(!isActive)}>{selected}</div>
+                        <span className='fas fa-caret-down'></span>
                     </div>
+                    {isActive && (
+                        <div className='dropdown-content'>
+                            {options.map((option) => (
+                                <div onClick={(e) => {
+                                    setSelected(option);
+                                    setEstado(option);
+                                    setIsActive(false);
+                                }}
+                                className="dropdown-item"> 
+                        {option}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+<br></br> 
                 <button type="submit" id="boton2" className='btn btn-primary'>Agregar</button>
             </form>
         </div>
