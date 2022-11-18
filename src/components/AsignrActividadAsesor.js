@@ -12,10 +12,9 @@ import {TimePicker} from '@material-ui/pickers';
 import DatePicker from "react-datepicker";
 
 
-const AsignrActividadAsesor = () => {
-
-  
 const db2 = getFirestore();
+
+const AsignrActividadAsesor = () => {
 
   const [nombreActi, setNombreActi] = useState('')
     const [startDate, setStartDate] = useState(new Date());
@@ -30,7 +29,7 @@ const db2 = getFirestore();
   const navigate = useNavigate()
     const {id} = useParams()
 
-    const update = async (e) => {
+    const addSchool = async (e) => {
       const usuarion = doc(db2, "actividad")
         const data = {nombreActi: nombreActi, descripcion: descripcion, 
           fechainicio: startDate.toString(), 
@@ -42,7 +41,7 @@ const db2 = getFirestore();
 }
 
     const getUserid = async (id) => {
-        const usuarion = await getDoc(doc(db2, "actividad", id))
+        const usuarion = await collection(doc(db2, "actividad", id))
         if(usuarion.exists()){
             console.log(usuarion.data)
             setNombreActi(usuarion.data().nombreActi)
@@ -50,7 +49,7 @@ const db2 = getFirestore();
             setStartDate(usuarion.data().startDate)
             setStartDate2(usuarion.data().startDate2)
             setHorafinal(usuarion.data().horaFinal)
-            setEstado(usuarion.data().estado)
+            setEstado(usuarion.data().estado) 
         }else{
             console.log('Actividad no disponible')
         }
@@ -71,7 +70,7 @@ const db2 = getFirestore();
     <div className='row'>
         <div className='col'>
             <h3 class="text-center"> Agregar Actividad</h3>
-            <form onSubmit={update}>
+            <form>
             <div className='mb-3'>
                     <label className='form-label'>Actividad</label>
                     <input 
@@ -114,7 +113,7 @@ const db2 = getFirestore();
                     </div>
                     {isActive && (
                         <div className='dropdown-content'>
-                            {options.map((option) => (
+                            {options.map((option => (
                                 <div onClick={(e) => {
                                     setSelected(option);
                                     setEstado(option);
@@ -123,11 +122,11 @@ const db2 = getFirestore();
                                 className="dropdown-item"> 
                         {option}
                                 </div>
-                            ))}
+                            )))}
                         </div>
                     )}
 <br></br> 
-                <button type="submit" id="boton2" className='btn btn-primary'>Agregar</button>
+<button onClick={() => addSchool()}>Submit</button>
             </form>
         </div>
     </div>
