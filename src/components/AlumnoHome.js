@@ -45,7 +45,7 @@ const AlumnoHome = () => {
 
     <section className='actividades'>
     <div class="card-body">
-    <a href="/alumnoHome"> 
+    <a href="/showActividadesAlumnos"> 
     <h3 class="card-title">Actividades</h3>
     <img src={archivo} width="30%" alt="..."/>
     </a>

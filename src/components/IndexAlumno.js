@@ -15,10 +15,10 @@ export const IndexA = () => {
             <a href="/crear" class="d-block text-light p-3">Inicio del sitio</a><br/>
           </div>
           <div class="menu">
-            <a href="/show" class="d-block text-light p-3">Proyectos</a> <br/>
+            <a href="/showActividadesAlumnos" class="d-block text-light p-3">Actividades</a> <br/>
           </div>
           <div class="menu">
-            <a href="/show" class="d-block text-light p-3">Actividades</a> <br/>
+            <a href="/show" class="d-block text-light p-3">Proyectos</a> <br/>
           </div>
         </div>
     
