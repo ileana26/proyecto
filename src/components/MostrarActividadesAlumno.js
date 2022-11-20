@@ -91,7 +91,7 @@ const MostrarActividadesAlumno = () => {
                                     <td>{alumno.descripcion}</td>
                                     <td>{alumno.fechafinal}</td>
                                     <td>
-                                        <Link to={`/edit/${alumno.id}`} className="btn btn-light">Editar</Link>
+                                        <Link to={`/edit/${alumno.id}`} className="btn btn-light">Subir actividad</Link>
                                     </td>
 
                             </tr>
@@ -99,9 +99,6 @@ const MostrarActividadesAlumno = () => {
                     </tbody>
                 </table>
 
-                <div >
-                    <Link to="/crear" className='btn btn-success mt-2 mb-2'> Create</Link>
-                </div>
             </div>
 
         </div>
