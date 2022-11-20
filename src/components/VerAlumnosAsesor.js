@@ -22,7 +22,25 @@ const MySwal = withReactContent(Swal)
 
 const VerAlumnosAsesor = () => {
 
-    const [alumnos, setAlumnos] = useState([]);
+
+  const [alumnos, setAlumnos] = useState([])
+    const userCollection = query(collection(db, "usuario"), where("rol", "==", "Practicante"));
+
+    const getUser = async() => {
+        const data = await getDocs(userCollection)
+        //console.log(data.docs);
+
+        setAlumnos(
+            data.docs.map((doc) => ({...doc.data(), id:doc.id}))
+        )
+       // console.log(mostrar)
+    }
+
+    useEffect(() => {
+        getUser()
+    }, [])
+
+  /*  const [alumnos, setAlumnos] = useState([]);
     const [nombreA, setNombre] = useState('');
     const [loading, setLoading] = useState(false);
     const [app, setApp] = useState([]);
@@ -59,38 +77,35 @@ return () => {
 // eslint-disable-next-line
 }, []);
 
-
+*/
   return (
     <div>
     <IndexAsesor/>
     <div className='container1'>
         <div className='row'>
             <div className='col'>
-            <Fragment>
                 <h3 class="text-center">Alumnos registrados para realizar Practicas Profesionales</h3> <br/>
                 <table class="table">
                     <thead>
-                        <tr > 
+                        <tr> 
                             <th>Nombre</th>
                             <th>Apellido paterno</th>
-                            <th>Apellido Materno</th>
-                            <th>Rol</th>
+                            <th>Apellido materno</th>
+                            <th></th>
                             <th></th>
                         </tr>
-
-                        </thead>
+                    </thead>
                     <tbody>
-                  {alumnos.map((alumno => (
-                  <td key={alumno.id}>
-                  <td>{alumno} </td>
-                  </td>
-                  
-      )))}
-    
-            </tbody>
+                        {alumnos.map((alumno) => (
+                            <tr key={alumno.id}>
+                                    <td>{alumno.nombre}</td>
+                                    <td>{alumno.app}</td>
+                                    <td>{alumno.apm}</td>
+                                    <td>{alumno.rol}</td>
+                            </tr>
+                        ))}
+                    </tbody>
                 </table>
-      
-    </Fragment>
             </div>
 
         </div>

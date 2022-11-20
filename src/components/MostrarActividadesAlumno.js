@@ -15,7 +15,26 @@ import IndexA from './IndexAlumno';
 
 const MostrarActividadesAlumno = () => {
 
-    const [alumnos, setAlumnos] = useState([]);
+
+    const [alumnos, setAlumnos] = useState([])
+    const userCollection = query(collection(db, "actividad"), where("estado", "==", "Disponible"));
+
+    const getUser = async() => {
+        const data = await getDocs(userCollection)
+        //console.log(data.docs);
+
+        setAlumnos(
+            data.docs.map((doc) => ({...doc.data(), id:doc.id}))
+        )
+       // console.log(mostrar)
+    }
+
+    useEffect(() => {
+        getUser()
+    }, [])
+
+
+   /* const [alumnos, setAlumnos] = useState([]);
     const [nombreA, setNombre] = useState('');
     const [loading, setLoading] = useState(false);
     const [app, setApp] = useState([]);
@@ -46,7 +65,7 @@ const MostrarActividadesAlumno = () => {
     
     // eslint-disable-next-line
     }, []);
-
+*/
 
   return (
     <div>
@@ -54,30 +73,35 @@ const MostrarActividadesAlumno = () => {
           <div className='container1'>
         <div className='row'>
             <div className='col'>
-            <Fragment>
                 <h3 class="text-center">Lista de actividades</h3> <br/>
                 <table class="table">
                     <thead>
-                        <tr > 
-                            <th>Nombre</th>
+                        <tr> 
+                            <th>Actividad</th>
                             <th>Descripcion</th>
                             <th>Fecha limite</th>
+                            <th>Accion</th>
                             <th></th>
                         </tr>
-
-                        </thead>
+                    </thead>
                     <tbody>
-                  {alumnos.map((alumno => (
-                  <td key={alumno.id}>
-                  <td>{alumno} </td>
-                  </td>
-                  
-      )))}
-    
-            </tbody>
+                        {alumnos.map((alumno) => (
+                            <tr key={alumno.id}>
+                                    <td>{alumno.nombreActi}</td>
+                                    <td>{alumno.descripcion}</td>
+                                    <td>{alumno.fechafinal}</td>
+                                    <td>
+                                        <Link to={`/edit/${alumno.id}`} className="btn btn-light">Editar</Link>
+                                    </td>
+
+                            </tr>
+                        ))}
+                    </tbody>
                 </table>
-      
-    </Fragment>
+
+                <div >
+                    <Link to="/crear" className='btn btn-success mt-2 mb-2'> Create</Link>
+                </div>
             </div>
 
         </div>
@@ -85,6 +109,5 @@ const MostrarActividadesAlumno = () => {
     </div>
   )
 }
-
 
 export default MostrarActividadesAlumno;
