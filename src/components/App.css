@@ -8,6 +8,28 @@
     
   }
 
+  .fondo{
+    top: 50%;
+    left: 100%;
+    width: 125em;
+    height: 60em;
+    
+  }
+
+  #iniciosesion{
+
+      background-color:   #1f180e  !important;
+      color: #fff !important;
+      opacity: 50% !important;
+      border-radius: 2em !important;
+      left: 32em !important;
+    
+  }
+
+  .botonLogin{
+    width: 10em !important;
+  }
+
   .container1{
     overflow-y: scroll;
     position:fixed;

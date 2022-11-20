@@ -4,8 +4,8 @@ import { doc, getDoc, getFirestore } from "firebase/firestore";
 import {Link} from "react-router-dom";
 import  db  from '../firebaseConfig/firebase'
 import firebase from 'firebase/compat/app'
-import imagen from './img/iniciosesion.jpg'
-
+import imagen from './img/login1.png'
+import fondo from './img/laptop.jpg'
 import './App.css'
 
 const auth = getAuth(db);
@@ -90,9 +90,11 @@ function Iniciosesion() {
 
     return (
     <div>
+         <div>
+    <img className='fondo' src={fondo}/></div>
 <div className='container'>
-  <div class="col-sm-6">
-<div class="card text-center" >
+  <div class="col-sm-5"> 
+ <div class="card text-center" id='iniciosesion'>
   <div class="card-header">
   <img className='inicio' src={imagen}/>
     <p className='titulo1'>Inicio de Sesión </p>
@@ -106,12 +108,13 @@ function Iniciosesion() {
           <div class="mb-3">  
         <label htmlFor="password" class="form-label"> Contraseña </label> <br/>
         <input type="password" id="password" class="form-control" /> <br/>
-        <input type="submit" className="fadeIn fourth" value="Entrar" />
+        <input type="submit" className="botonLogin" value="Entrar" />
     </div>
 </form>
   </div>
 </div>
-</div> </div>
+</div> 
+</div>
 </div>
   );
 
