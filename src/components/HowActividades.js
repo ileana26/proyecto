@@ -88,8 +88,8 @@ const ShowActividades = () => {
                                         <Link to={`/editarActividad/${mostrr.id}`} className="btn btn-light">Editar</Link>
                                     </td>
                                     <td>
-                                        <button onClick={() => {confirmDelete(mostrr.id)}} className="btn btn-danger"> Borrar </button>
-                                    </td>
+                                    <Link to={`/editarActividad/${mostrr.id}`} class="btn btn-warning">Ver actividad</Link>
+                                      </td>
                             </tr>
                         ))}
                     </tbody>

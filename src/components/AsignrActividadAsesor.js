@@ -10,11 +10,25 @@ import { collection, getDocs, query, doc, getDoc, addDoc, deleteDoc, updateDoc, 
 import { useEffect } from 'react';
 import {TimePicker} from '@material-ui/pickers';
 import DatePicker from "react-datepicker";
+import { useId } from 'react';
 
 
 const db2 = getFirestore();
 
 const AsignrActividadAsesor = () => {
+
+  const firestore = getFirestore(db);
+
+  async function registrar(nombreActi, descripcion, fechainicio, fechafinal, horaFinal, estado){
+
+    const docRef = await addDoc(doc(firestore, "actividad"))
+  setDoc(docRef, {nombreActi: nombreActi, descripcion: descripcion, 
+    fechainicio: fechainicio.toString(), 
+    fechafinal: fechafinal.toString(),
+    horaFinal: horaFinal.toString(), 
+    estado: estado});
+  }
+
 
   const [nombreActi, setNombreActi] = useState('')
     const [startDate, setStartDate] = useState(new Date());
@@ -29,19 +43,19 @@ const AsignrActividadAsesor = () => {
   const navigate = useNavigate()
     const {id} = useParams()
 
-    const addSchool = async (e) => {
-      const usuarion = doc(db2, "actividad")
+    /*const addSchool = async (e) => {
+      const usuarion = doc(db2, "actividad", id)
         const data = {nombreActi: nombreActi, descripcion: descripcion, 
           fechainicio: startDate.toString(), 
           fechafinal: startDate2.toString(),
           horaFinal: horaFinal.toString(), 
           estado: estado.toString()}
-        await addDoc(usuarion, data)
+        await updateDoc(usuarion, data)
         navigate('/asesorHome')
 }
 
     const getUserid = async (id) => {
-        const usuarion = await collection(doc(db2, "actividad", id))
+        const usuarion = await getDoc(doc(db2, "actividad", id))
         if(usuarion.exists()){
             console.log(usuarion.data)
             setNombreActi(usuarion.data().nombreActi)
@@ -57,11 +71,24 @@ const AsignrActividadAsesor = () => {
 
     useEffect( () => {
         getUserid(id)
-    }, [])
+    }, [])*/
 
-    const [isActive, setIsActive] = useState(false);
-    const [selected, setSelected] = useState();
-    const options = ["Disponible", "Cerrada"];
+
+    function store (e) {
+      e.preventDefault();
+
+      const nombreActi = e.target.elements.nombreActi.value;
+      const descripcion = e.target.elements.descripcion.value;
+      const fechainicio = e.target.elements.fechainicio.value;
+      const fechafinal = e.target.elements.fechafinal.value;
+      const horaFinal = e.target.elements.horaFinal.value;
+      const estado = "Disponible";
+
+      console.log("submit",nombreActi, descripcion, fechainicio, fechafinal, horaFinal, estado);
+
+      registrar(nombreActi, descripcion, fechainicio, fechafinal, horaFinal, estado);
+
+  }
 
   return (
     <div>
@@ -70,12 +97,11 @@ const AsignrActividadAsesor = () => {
     <div className='row'>
         <div className='col'>
             <h3 class="text-center"> Agregar Actividad</h3>
-            <form>
+            <form onSubmit={store}>
             <div className='mb-3'>
                     <label className='form-label'>Actividad</label>
                     <input 
-                    value={nombreActi}
-                    onChange={ (e) => setNombreActi(e.target.value)}
+                  id='nombreActi'
                     type="text"
                     className='form-control'/>
                     </div>
@@ -83,50 +109,31 @@ const AsignrActividadAsesor = () => {
                     <div className='mb-3'>
                     <label className='form-label'>Descripcion</label>
                     <input 
-                    value={descripcion}
-                    onChange={ (e) => setDescripcion(e.target.value)}
+                    id='descripcion'
                     type="text"
                     className='form-control'/>
                     </div>
 
                     <div className='mb-3'>
                     <label className='form-label'>Fecha de inicio</label><br></br> 
-                    <DatePicker selected={startDate} onChange={(date:Date) => setStartDate(date)} />
+                    <DatePicker id='fechainicio' selected={startDate} onChange={(date:Date) => setStartDate(date)} />
                     </div>
 
                     <div className='mb-3'>
                     <label className='form-label'> Fecha de termino</label> <br></br> 
-                    <DatePicker selected={startDate2} onChange={(date:Date) => setStartDate2(date)} />
+                    <DatePicker id='fechafinal' selected={startDate2} onChange={(date:Date) => setStartDate2(date)} />
                     </div>
 
                     <div className='mb-3'>
                     <label className='form-label'>Hora de termino</label><br></br> 
-                    <TimePicker value={horaFinal} onChange={setHorafinal}>
+                    <TimePicker id='horaFinal' value={horaFinal} onChange={setHorafinal}>
                     </TimePicker>
                    
                     </div>
 
-                    <div className='dropdown'>
-                    <label className='form-label'>Estado de la actividad</label><br></br> 
-                        <div className='dropdown-btn' onClick={(e) => setIsActive(!isActive)}>{selected}</div>
-                        <span className='fas fa-caret-down'></span>
-                    </div>
-                    {isActive && (
-                        <div className='dropdown-content'>
-                            {options.map((option => (
-                                <div onClick={(e) => {
-                                    setSelected(option);
-                                    setEstado(option);
-                                    setIsActive(false);
-                                }}
-                                className="dropdown-item"> 
-                        {option}
-                                </div>
-                            )))}
-                        </div>
-                    )}
+      
 <br></br> 
-<button onClick={() => addSchool()}>Submit</button>
+<button type="submit" className='btn btn-primary'>Agregar</button>
             </form>
         </div>
     </div>
