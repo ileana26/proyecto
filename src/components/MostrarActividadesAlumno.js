@@ -12,11 +12,16 @@ import firebase from 'firebase/compat/app'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import IndexA from './IndexAlumno';
+import storage from '../firebaseConfig/firebase'
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+import {v4} from 'uuid';
+
 
 const MostrarActividadesAlumno = () => {
 
 
-    const [alumnos, setAlumnos] = useState([])
+    const [alumnos, setAlumnos] = useState([]);
+    const [file, setFile] = useState(null);
     const userCollection = query(collection(db, "actividad"), where("estado", "==", "Disponible"));
 
     const getUser = async() => {
@@ -33,40 +38,34 @@ const MostrarActividadesAlumno = () => {
         getUser()
     }, [])
 
+    const handleSubmit = (e) =>{
+        e.preventDefault();
 
-   /* const [alumnos, setAlumnos] = useState([]);
-    const [nombreA, setNombre] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [app, setApp] = useState([]);
-    const [apm, setApm] = useState([]);
-    const [rol, setRol] = useState('');
+        Swal.fire({
+            title: 'Estas seguro de subir este archivo?',
+            showDenyButton: true,
+            confirmButtonText: 'Guardar',
+            denyButtonText: `Cancelar`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                    const result = uploadFile(file);
+                   console.log(result);
 
-    useEffect(() => {
-        const q = query(collection(db, "actividad"), where("estado", "==", "Disponible"));
-        setLoading(true);
-    
-    const nom = onSnapshot(q, (querySnapshot) => {
-      const cities = [];
-      querySnapshot.forEach((doc) => {
-          cities.push(
-          doc.data().nombreActi,
-          doc.data().descripcion,
-          doc.data().fechafinal
-          );
-      });
-      console.log("Actividad", cities.join(", "));
-      setAlumnos(cities);
-          setLoading(false);
-    });
-    
-    return () => {
-      nom();
+              Swal.fire('¡Guardado!', '', 'success')
+            } else if (result.isDenied) {
+              Swal.fire('Archivo no guardado', '', 'info')
+            }
+          })
+
     };
-    
-    // eslint-disable-next-line
-    }, []);
-*/
 
+    async function  uploadFile(file){
+        const storage = getStorage();
+const storageRef = ref(storage, v4());
+       return await  uploadBytes(storageRef, file) 
+}
+  
   return (
     <div>
           <IndexA/>
@@ -90,10 +89,13 @@ const MostrarActividadesAlumno = () => {
                                     <td>{alumno.nombreActi}</td>
                                     <td>{alumno.descripcion}</td>
                                     <td>{alumno.fechafinal}</td>
-                                    <td>
-                                        <Link to={`/edit/${alumno.id}`} className="btn btn-light">Subir actividad</Link>
-                                    </td>
-
+                                 <td>   <form onSubmit={handleSubmit}>
+                                    <td><input type="file" 
+                                    name="" id="" 
+                                    onChange={e => setFile(e.target.files[0])}
+                                    className="btn btn-light" /> </td>
+                                  <td>  <button className='btn btn-primary'> Subir</button> </td>
+                                    </form> </td>
                             </tr>
                         ))}
                     </tbody>
