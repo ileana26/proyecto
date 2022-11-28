@@ -91,13 +91,16 @@
 
   #sidebar-container{
     min-height: 100vh;
-    background-color: #111854 !important;
+    background-color: #0a0e39 !important;
+    width: 18rem;
+    font-size:22px;
+    font-weight:400;
   }
 
-  #sidebar-container .logo{
-    padding: 2rem 1.25rem;
+  /*#sidebar-container .nav-link{
+    color: white;
   }
-
+*/
   
   #sidebar-container .menu{
     width: 18rem;
@@ -110,10 +113,6 @@
 
 
 
-i {
-  font-size: 30px;
-  padding: 1rem 1rem;
-}
 
 .actividades{
   margin-right: 10px;
@@ -165,3 +164,24 @@ i {
 .dropdown .dropdown-content .dropdown-item:hover{
   background: #f4f4f4;
 }
+i{
+  font-size: 1.5rem; 
+  color: cornflowerblue;
+  padding: 1rem 1rem;
+}
+i#cerrarsesion{
+  font-size: 2rem; 
+  color: cornflowerblue;
+}
+/*ul{
+  margin : 0;
+  padding:0;
+  color:white
+}
+
+ul li a:hover{
+  color: blue;
+}
+a:hover{
+  color:blue;
+}*/

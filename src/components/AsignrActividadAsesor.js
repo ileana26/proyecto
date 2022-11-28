@@ -96,44 +96,38 @@ const AsignrActividadAsesor = () => {
     <div className='container1'>
     <div className='row'>
         <div className='col'>
-            <h3 class="text-center"> Agregar Actividad</h3>
-            <form onSubmit={store}>
-            <div className='mb-3'>
-                    <label className='form-label'>Actividad</label>
-                    <input 
-                  id='nombreActi'
-                    type="text"
-                    className='form-control'/>
+            <h2 class="text-center"> Agregar actividad</h2>
+            <br></br>
+            <form onSubmit={store} class="row g-3">
+                    <div className='col-11'>
+                      <label className='form-label'>Actividad</label>
+                      <input id='nombreActi' type="text" className='form-control'/>
                     </div>
 
-                    <div className='mb-3'>
-                    <label className='form-label'>Descripcion</label>
-                    <input 
-                    id='descripcion'
-                    type="text"
-                    className='form-control'/>
+                    <div className='col-11'>
+                      <label className='form-label'>Descripcion</label>
+                      <input id='descripcion' type="text" className='form-control'/>
                     </div>
 
-                    <div className='mb-3'>
-                    <label className='form-label'>Fecha de inicio</label><br></br> 
-                    <DatePicker id='fechainicio' selected={startDate} onChange={(date:Date) => setStartDate(date)} />
+                    <div className='col-md-4'>
+                      <label className='form-label'>Fecha de inicio</label><br></br> 
+                      <DatePicker id='fechainicio' selected={startDate} onChange={(date:Date) => setStartDate(date)} />
                     </div>
 
-                    <div className='mb-3'>
-                    <label className='form-label'> Fecha de termino</label> <br></br> 
-                    <DatePicker id='fechafinal' selected={startDate2} onChange={(date:Date) => setStartDate2(date)} />
+                    <div className='col-md-4'>
+                      <label className='form-label'> Fecha de termino</label> <br></br> 
+                      <DatePicker id='fechafinal' selected={startDate2} onChange={(date:Date) => setStartDate2(date)} />
                     </div>
 
-                    <div className='mb-3'>
-                    <label className='form-label'>Hora de termino</label><br></br> 
-                    <TimePicker id='horaFinal' value={horaFinal} onChange={setHorafinal}>
-                    </TimePicker>
-                   
+                    <div className='col-md-3'>
+                      <label className='form-label'>Hora de termino</label><br></br> 
+                      <TimePicker id='horaFinal' value={horaFinal} onChange={setHorafinal}></TimePicker>
                     </div>
 
-      
-<br></br> 
-<button type="submit" className='btn btn-primary'>Agregar</button>
+                    <br></br> <br></br> <br></br> 
+                    <div className='col-11'>   
+                        <button type="submit" className='btn btn-primary'>Agregar</button>
+                    </div>     
             </form>
         </div>
     </div>
