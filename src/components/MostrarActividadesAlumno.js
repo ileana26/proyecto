@@ -47,14 +47,13 @@ const MostrarActividadesAlumno = () => {
             confirmButtonText: 'Guardar',
             denyButtonText: `Cancelar`,
           }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                     const result = uploadFile(file);
                    console.log(result);
 
               Swal.fire('¡Guardado!', '', 'success')
             } else if (result.isDenied) {
-              Swal.fire('Archivo no guardado', '', 'info')
+              Swal.fire('El archivo no se pudo subir', '', 'info')
             }
           })
 
@@ -62,10 +61,42 @@ const MostrarActividadesAlumno = () => {
 
     async function  uploadFile(file){
         const storage = getStorage();
-const storageRef = ref(storage, v4());
+const storageRef = ref(storage, `actividades/${file.name + v4()}`);
        return await  uploadBytes(storageRef, file) 
 }
-  
+   /* const [alumnos, setAlumnos] = useState([]);
+    const [nombreA, setNombre] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [app, setApp] = useState([]);
+    const [apm, setApm] = useState([]);
+    const [rol, setRol] = useState('');
+
+    useEffect(() => {
+        const q = query(collection(db, "actividad"), where("estado", "==", "Disponible"));
+        setLoading(true);
+    
+    const nom = onSnapshot(q, (querySnapshot) => {
+      const cities = [];
+      querySnapshot.forEach((doc) => {
+          cities.push(
+          doc.data().nombreActi,
+          doc.data().descripcion,
+          doc.data().fechafinal
+          );
+      });
+      console.log("Actividad", cities.join(", "));
+      setAlumnos(cities);
+          setLoading(false);
+    });
+    
+    return () => {
+      nom();
+    };
+    
+    // eslint-disable-next-line
+    }, []);
+*/
+
   return (
     <div>
           <IndexA/>

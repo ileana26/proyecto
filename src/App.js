@@ -17,6 +17,7 @@ import AsignrActividadAsesor from "./components/AsignrActividadAsesor"
 import EditarActividad from "./components/EditarActividad";
 import HowActividades from './components/HowActividades';
 import MostrarActividadesAlumno from './components/MostrarActividadesAlumno';
+import Descargar from './components/Descargar';
 
 const auth = getAuth(db);
 const firestore = getFirestore(db);
@@ -95,6 +96,9 @@ function App() {
           </Routes>
           <Routes>
           <Route path='/showActividadesAlumnos' element={<MostrarActividadesAlumno/>}> </Route>
+          </Routes>
+          <Routes>
+          <Route path='/descargar' element={<Descargar/>}> </Route>
           </Routes>
         </BrowserRouter>
         </>;

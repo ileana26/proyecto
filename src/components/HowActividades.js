@@ -98,6 +98,11 @@ const ShowActividades = () => {
                 <div >
                     <Link to="/asignarActividad" className='btn btn-success mt-2 mb-2'> Create</Link>
                 </div>
+
+                <div >
+                    <Link to="/descargar" className='btn btn-success mt-2 mb-2'> Descargar actividades</Link>
+                </div>
+
             </div>
 
         </div>
