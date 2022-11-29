@@ -47,13 +47,7 @@ const AlumnoHome = () => {
     <div class="card-body">
     <a href="/showActividadesAlumnos"> 
     <h3 class="card-title">Actividades</h3>
-    <img src={archivo} width="30%" alt="..."/>
-    </a>
-    </div>
-    <div class="card-body">
-    <a href="/alumnoHome"> 
-    <h3 class="card-title">Proyectos</h3>
-    <img src={veractividades} width="30%" alt="..."/>
+    <img src={veractividades} width="10%" alt="..."/>
     </a>
     </div>
     </section>

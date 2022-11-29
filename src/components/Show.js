@@ -94,7 +94,7 @@ const Show = () => {
                 </table>
 
                 <div >
-                    <Link to="/crear" className='btn btn-success mt-2 mb-2'> Create</Link>
+                    <Link to="/crear" className='btn btn-success mt-2 mb-2'> Agregar usuario</Link>
                 </div>
             </div>
 

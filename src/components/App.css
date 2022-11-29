@@ -1,33 +1,33 @@
 .container{
-  overflow-y: scroll;
+  /*overflow-y: scroll;*/
     position: absolute;
     top: 10%;
-    left: 32%;
+    left: -25%;
     height: 100%;
     width: 80%;
     
   }
 
   .fondo{
-    top: 50%;
-    left: 100%;
-    width: 125em;
-    height: 60em;
+    top: 12%;
+    left: 10%;
+    width: 110%;
+    height: 55em;
     
   }
 
   #iniciosesion{
 
-      background-color:   #1f180e  !important;
-      color: #fff !important;
-      opacity: 50% !important;
+      background-color:   #1d2138  !important;
+      color: rgb(255, 255, 255) !important;
+      opacity: 75% !important;
       border-radius: 2em !important;
       left: 32em !important;
-    
   }
 
   .botonLogin{
     width: 10em !important;
+    opacity: 100% !important;;
   }
 
   .container1{
@@ -42,11 +42,11 @@
   }
 
   .container2{
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
     position:absolute;
     top: 2%;
     left: 22%;
-    right: 30%;
+    right: 50%;
     height: 100%;
     width: 75%;
     
@@ -172,6 +172,10 @@ i{
 i#cerrarsesion{
   font-size: 2rem; 
   color: cornflowerblue;
+}
+i#index{
+  font-size: 8rem; 
+  color: rgb( 32, 118, 217);
 }
 /*ul{
   margin : 0;

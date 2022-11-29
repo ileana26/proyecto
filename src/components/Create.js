@@ -52,10 +52,10 @@ const auth = getAuth(db);
     <div className='container1'>
         <div className='row'>
             <div className='col'>
-                <h3 class="text-center"> Crear nuevo usuario</h3>
-                
-                <form onSubmit={store}>
-                    <div className='mb-3'>
+                <h3 class="text-center"> Agregar nuevo usuario</h3>
+                <br></br>
+                <form onSubmit={store} class="row g-3">
+                    <div className='col-8'>
                     <label className='form-label'>Nombre</label>
                     <input 
                     id = "nombre"
@@ -63,7 +63,7 @@ const auth = getAuth(db);
                     className='form-control'/>
                     </div>
 
-                    <div className='mb-3'>
+                    <div className='col-md-5'>
                     <label className='form-label'>Apellido paterno</label>
                     <input 
                     id = "app"
@@ -71,7 +71,7 @@ const auth = getAuth(db);
                     className='form-control'/>
                     </div>
 
-                    <div className='mb-3'>
+                    <div className='col-md-6'>
                     <label className='form-label'>Apellido materno</label>
                     <input 
                     id = "apm"
@@ -79,7 +79,7 @@ const auth = getAuth(db);
                     className='form-control'/>
                     </div>
 
-                    <div className='mb-3'>
+                    <div className='col-md-5'>
                     <label className='form-label'>Email</label>
                     <input 
                     id = "email"
@@ -87,7 +87,7 @@ const auth = getAuth(db);
                     className='form-control'/>
                     </div>
 
-                    <div className='mb-3'>
+                    <div className='col-md-6'>
                     <label className='form-label'>Contraseña</label>
                     <input 
                     id = "contrasenia"
@@ -95,15 +95,16 @@ const auth = getAuth(db);
                     className='form-control'/>
                     </div>
 
-                    <div className='mb-3'>
+                    <div className='col-3'>
                     <label className='form-label'>Tipo de usuario</label>
                     <select className='form-control' id = "rol">
                         <option id="rol">Asesor</option>
                         <option id="rol">Practicante</option>
                         </select> 
                     </div>
-
+                    <div className='col-11'>  
                     <button type="submit" className='btn btn-primary'>Agregar</button>
+                    </div>
                 </form>
                 
             </div>

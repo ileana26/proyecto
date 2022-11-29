@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import  db  from '../firebaseConfig/firebase'
 import firebase from 'firebase/compat/app'
 import imagen from './img/login1.png'
-import fondo from './img/laptop.jpg'
+import fondo from './img/fondo_fac.png'
 import './App.css'
 
 const auth = getAuth(db);
@@ -98,8 +98,7 @@ function Iniciosesion() {
   <div class="card-header">
   <img className='inicio' src={imagen}/>
     <p className='titulo1'>Inicio de Sesión </p>
-  </div>
-  <div class="card-body">
+  
   <form className="formulario" onSubmit={submitHandler} >
   <div class="mb-3">
         <label htmlFor="email" class="form-label"> Correo electronico:</label> <br/>
@@ -108,7 +107,7 @@ function Iniciosesion() {
           <div class="mb-3">  
         <label htmlFor="password" class="form-label"> Contraseña </label> <br/>
         <input type="password" id="password" class="form-control" /> <br/>
-        <input type="submit" className="botonLogin" value="Entrar" />
+        <input type="submit" className="botonLogin" class="btn btn-primary btn-lg" value="Entrar" />
     </div>
 </form>
   </div>
