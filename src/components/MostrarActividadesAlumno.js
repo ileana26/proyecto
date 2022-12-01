@@ -15,7 +15,7 @@ import IndexA from './IndexAlumno';
 import storage from '../firebaseConfig/firebase'
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import {v4} from 'uuid';
-
+import { getDownloadURL, listAll  } from "firebase/storage";
 
 const MostrarActividadesAlumno = () => {
 
@@ -23,6 +23,7 @@ const MostrarActividadesAlumno = () => {
     const [alumnos, setAlumnos] = useState([]);
     const [file, setFile] = useState(null);
     const userCollection = query(collection(db, "actividad"), where("estado", "==", "Disponible"));
+    const [imageUpload, setImageUpload] = useState(null);
 
     const getUser = async() => {
         const data = await getDocs(userCollection)
@@ -61,8 +62,61 @@ const MostrarActividadesAlumno = () => {
 
     async function  uploadFile(file){
         const storage = getStorage();
-const storageRef = ref(storage, `actividades/${file.name + v4()}`);
-       return await  uploadBytes(storageRef, file) 
+    const storageRef = ref(storage, `actividades/${file.name + v4()}`);
+ 
+    uploadBytes(storageRef, file).then(() =>{
+      console.log(storageRef)
+
+    })
+}
+
+function obtenerURL (storageRef){
+  getDownloadURL(ref(storage, imageUpload))
+.then((url) => {
+  // `url` is the download URL for 'images/stars.jpg'
+
+  // This can be downloaded directly:
+  const xhr = new XMLHttpRequest();
+  xhr.responseType = 'blob';
+  xhr.onload = (event) => {
+    const blob = xhr.response;
+  };
+  xhr.open('GET', url);
+  xhr.send();
+
+  // Or inserted into an <img> element
+  /*const img = document.getElementById('myimg');
+  img.setAttribute('src', url);*/
+  console.log("url del archivo ",url)
+  setImageUpload(url)
+})
+.catch((error) => {
+  console.error(error)
+});
+
+  const storage = getStorage();
+  getDownloadURL(ref(storage, 'actividades/ejemplo.pdf003ec36a-d4ca-43f2-b9f3-800851a0020a'))
+    .then((url) => {
+      // `url` is the download URL for 'images/stars.jpg'
+  
+      // This can be downloaded directly:
+      const xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = (event) => {
+        const blob = xhr.response;
+      };
+      xhr.open('GET', url);
+      xhr.send();
+  
+      // Or inserted into an <img> element
+      /*const img = document.getElementById('myimg');
+      img.setAttribute('src', url);*/
+      console.log("url del archivo ",url)
+      setImageUpload(url)
+    })
+    .catch((error) => {
+      console.error(error)
+    });
 }
    /* const [alumnos, setAlumnos] = useState([]);
     const [nombreA, setNombre] = useState('');
