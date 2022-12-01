@@ -25,9 +25,15 @@ const AsignrActividadAsesor = () => {
   async function registrar(nombreActi, descripcion, fechainicio, fechafinal, horaFinal, estado){
 
     const docRef = await addDoc(doc(firestore, "actividad"))
+
+    const a = startDate.toISOString().split('T')[0];
+    // console.log(a);
+ 
+     const b = startDate2.toISOString().split('T')[0];
+     //console.log(a);
   setDoc(docRef, {nombreActi: nombreActi, descripcion: descripcion, 
-    fechainicio: fechainicio.toString(), 
-    fechafinal: fechafinal.toString(),
+    fechainicio: a, 
+    fechafinal: b,
     horaFinal: horaFinal.toString(), 
     estado: estado});
   }
@@ -40,8 +46,6 @@ const AsignrActividadAsesor = () => {
     const [horaFinal, setHorafinal] = useState();
     const [estado, setEstado] = useState ('');
     
-  console.log(startDate);
-  console.log(startDate2);
  
   const navigate = useNavigate()
     const {id} = useParams()

@@ -26,8 +26,7 @@ const EditarActividad  = () => {
     const [horaFinal, setHorafinal] = useState();
     const [estado, setEstado] = useState ('');
 
-    console.log(horaFinal);
-    console.log(estado);
+   
     
     const navigate = useNavigate()
     const {id} = useParams()
@@ -36,11 +35,19 @@ const EditarActividad  = () => {
         
         e.preventDefault()
         const usuarion = doc(db, "actividad", id)
+        const a = startDate.toISOString().split('T')[0];
+        // console.log(a);
+     
+         const b = startDate2.toISOString().split('T')[0];
+         //console.log(a);
+
         const data = {nombreActi: nombreActi, descripcion: descripcion, 
-            fechainicio: startDate.toString(), 
-            fechafinal: startDate2.toString(),
+            fechainicio: a, 
+            fechafinal: b,
             horaFinal: horaFinal.toString(), 
             estado: estado.toString()}
+
+            
 
             Swal.fire({
                 title: '¿Esta seguro de guardar los cambios?',
