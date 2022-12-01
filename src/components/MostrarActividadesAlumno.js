@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext, useId, Fragment} from 'react'
 import {
   updateDoc,
   serverTimestamp,
+  arrayUnion,
 } from 'firebase/firestore';
 import { Link } from 'react-router-dom'
 import { collection, getDoc, onSnapshot, setDoc, query, 
@@ -24,6 +25,8 @@ const MostrarActividadesAlumno = () => {
     const [file, setFile] = useState(null);
     const userCollection = query(collection(db, "actividad"), where("estado", "==", "Disponible"));
     const [imageUpload, setImageUpload] = useState(null);
+    let auxiliar=[]
+    let contador = 0;
 
     const getUser = async() => {
         const data = await getDocs(userCollection)
@@ -65,13 +68,25 @@ const MostrarActividadesAlumno = () => {
     const storageRef = ref(storage, `actividades/${file.name + v4()}`);
  
     uploadBytes(storageRef, file).then(() =>{
-      console.log(storageRef)
+     
+   obtenerURL(storageRef)
 
     })
 }
 
-function obtenerURL (storageRef){
-  getDownloadURL(ref(storage, imageUpload))
+async function  urlObt(url){
+  
+  const archivos = doc(db, "urls");
+ 
+  await updateDoc(archivos, {
+    url: arrayUnion(url),
+  });
+
+  
+}
+
+function obtenerURL (file){
+  getDownloadURL(ref(storage, file))
 .then((url) => {
   // `url` is the download URL for 'images/stars.jpg'
 
@@ -89,34 +104,12 @@ function obtenerURL (storageRef){
   img.setAttribute('src', url);*/
   console.log("url del archivo ",url)
   setImageUpload(url)
+  urlObt(url)
 })
 .catch((error) => {
   console.error(error)
 });
 
-  const storage = getStorage();
-  getDownloadURL(ref(storage, 'actividades/ejemplo.pdf003ec36a-d4ca-43f2-b9f3-800851a0020a'))
-    .then((url) => {
-      // `url` is the download URL for 'images/stars.jpg'
-  
-      // This can be downloaded directly:
-      const xhr = new XMLHttpRequest();
-      xhr.responseType = 'blob';
-      xhr.onload = (event) => {
-        const blob = xhr.response;
-      };
-      xhr.open('GET', url);
-      xhr.send();
-  
-      // Or inserted into an <img> element
-      /*const img = document.getElementById('myimg');
-      img.setAttribute('src', url);*/
-      console.log("url del archivo ",url)
-      setImageUpload(url)
-    })
-    .catch((error) => {
-      console.error(error)
-    });
 }
    /* const [alumnos, setAlumnos] = useState([]);
     const [nombreA, setNombre] = useState('');
@@ -185,7 +178,10 @@ function obtenerURL (storageRef){
                         ))}
                     </tbody>
                 </table>
-
+                <div>
+      <a href={imageUpload} download="newfilename">Download the pdf</a>
+        <img id="myimg"></img>
+      </div>
             </div>
 
         </div>
