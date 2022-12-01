@@ -22,22 +22,6 @@ const AsignrActividadAsesor = () => {
 
   const firestore = getFirestore(db);
 
-  async function registrar(nombreActi, descripcion, fechainicio, fechafinal, horaFinal, estado){
-
-    const docRef = await addDoc(doc(firestore, "actividad"))
-
-    const a = startDate.toISOString().split('T')[0];
-    // console.log(a);
- 
-     const b = startDate2.toISOString().split('T')[0];
-     //console.log(a);
-  setDoc(docRef, {nombreActi: nombreActi, descripcion: descripcion, 
-    fechainicio: a, 
-    fechafinal: b,
-    horaFinal: horaFinal.toString(), 
-    estado: estado});
-  }
-
 
   const [nombreActi, setNombreActi] = useState('')
     const [startDate, setStartDate] = useState(new Date());
@@ -49,6 +33,24 @@ const AsignrActividadAsesor = () => {
  
   const navigate = useNavigate()
     const {id} = useParams()
+
+    async function registrar(nombreActi, descripcion, fechainicio, fechafinal, horaFinal, estado){
+
+      const docRef = await addDoc(collection(firestore, "actividad"), {"nombreActi":nombreActi, "descripcion": descripcion, "fechainicio": fechainicio, 
+      "fechafinal":fechafinal, "horafinal":horaFinal, "estado": estado}).then((value) => console.log("guardado"))
+  
+    
+      const a = startDate.toISOString().split('T')[0];
+      // console.log(a);
+   
+       const b = startDate2.toISOString().split('T')[0];
+       //console.log(a);
+    setDoc(docRef, {nombreActi: nombreActi, descripcion: descripcion, 
+      fechainicio: a, 
+      fechafinal: b,
+      horaFinal: horaFinal.toString(), 
+      estado: estado});
+    }
 
     /*const addSchool = async (e) => {
       const usuarion = doc(db2, "actividad", id)
