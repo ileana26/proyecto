@@ -42,7 +42,7 @@ const MostrarActividadesAlumno = () => {
         e.preventDefault();
 
         Swal.fire({
-            title: 'Estas seguro de subir este archivo?',
+            title: '¿Estas seguro de subir este archivo?',
             showDenyButton: true,
             confirmButtonText: 'Guardar',
             denyButtonText: `Cancelar`,

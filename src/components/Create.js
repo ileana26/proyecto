@@ -7,15 +7,24 @@ import { Indexh } from './Indexh'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { getFirestore, doc, setDoc } from 'firebase/firestore'
 import { initializeApp } from "firebase/app";
+import validator from 'validator';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const auth = getAuth(db);
+const MySwal = withReactContent(Swal)
 
 
     const Create = () => {
         const firestore = getFirestore(db);
 
+        const [emailError, setEmailError] = useState('');
+        const [errorMessage, setErrorMessage] = useState('')
+        const navigate = useNavigate()
+
 
         async function registrar(nombre, app, apm, email, contrasenia, rol){
+            
     
             const infousuario = await createUserWithEmailAndPassword(
                 auth, email, contrasenia).then((usuarioFirebase)=>{
@@ -41,10 +50,49 @@ const auth = getAuth(db);
 
         console.log("submit", nombre, app, apm, email, rol);
 
-        registrar(nombre, app, apm, email, contrasenia, rol);
+        Swal.fire({
+            title: '¿Esta seguro de agregar este usuario?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Guardar',
+            denyButtonText: `Cancelar`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                registrar(nombre, app, apm, email, contrasenia, rol);
+              Swal.fire('¡Usuario guardado!', '', 'Hecho')
+              navigate('/show')
+            } else if (result.isDenied) {
+              Swal.fire('El usuario no se pudo guardar', '', 'Info')
+            }
+          })
 
     }
     
+//correo
+    const validateEmail = (e) => {
+        var email = e.target.value
+      
+        if (validator.isEmail(email)) {
+          setEmailError('')
+        } else {
+          setEmailError('Correo no valido!')
+        }
+      }
+
+      //contraseña
+      const validate = (value) => {
+  
+        if (validator.isStrongPassword(value, {
+            minLength: 8, minLowercase: 1,
+            minUppercase: 1, minNumbers: 1, minSymbols: 1
+        })) {
+          setErrorMessage('')
+        } else {
+          setErrorMessage('Contraseña débil')
+        }
+      }
+
 
   return (
     <div>
@@ -60,7 +108,7 @@ const auth = getAuth(db);
                     <input 
                     id = "nombre"
                     type="text"
-                    className='form-control'/>
+                    className='form-control' required/>
                     </div>
 
                     <div className='col-md-5'>
@@ -68,7 +116,7 @@ const auth = getAuth(db);
                     <input 
                     id = "app"
                     type="text"
-                    className='form-control'/>
+                    className='form-control' required/>
                     </div>
 
                     <div className='col-md-6'>
@@ -76,7 +124,7 @@ const auth = getAuth(db);
                     <input 
                     id = "apm"
                     type="text"
-                    className='form-control'/>
+                    className='form-control' required/>
                     </div>
 
                     <div className='col-md-5'>
@@ -84,7 +132,13 @@ const auth = getAuth(db);
                     <input 
                     id = "email"
                     type="text"
-                    className='form-control'/>
+                    onChange={(e) => validateEmail(e)}
+                    className='form-control' required/>
+                     <span style={{
+                        fontWeight: 'bold',
+                         color: 'red',
+                         fontSize: '15px'
+                        }}>{emailError}</span>
                     </div>
 
                     <div className='col-md-6'>
@@ -92,12 +146,19 @@ const auth = getAuth(db);
                     <input 
                     id = "contrasenia"
                     type="text"
-                    className='form-control'/>
+                    onChange={(e) => validate(e.target.value)}
+                    className='form-control' required/>
+            <span style={{
+          fontWeight: 'bold',
+          color: 'red',
+          fontSize: '15px'
+        }}>{errorMessage}
+        </span>
                     </div>
 
                     <div className='col-3'>
                     <label className='form-label'>Tipo de usuario</label>
-                    <select className='form-control' id = "rol">
+                    <select className='form-control' id = "rol" required>
                         <option id="rol">Asesor</option>
                         <option id="rol">Practicante</option>
                         </select> 

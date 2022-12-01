@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, useState} from 'react'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import {Link} from "react-router-dom";
@@ -7,11 +7,14 @@ import firebase from 'firebase/compat/app'
 import imagen from './img/login1.png'
 import fondo from './img/fondo_fac.png'
 import './App.css'
+import validator from 'validator';
 
 const auth = getAuth(db);
 var Error = "";
 
 function Iniciosesion() {
+
+    const [emailError, setEmailError] = useState('');
 
    function iniciarSesion( email, password){
       return signInWithEmailAndPassword(auth, email, password)
@@ -88,6 +91,16 @@ function Iniciosesion() {
 
   }
 
+  const validateEmail = (e) => {
+    var email = e.target.value
+  
+    if (validator.isEmail(email)) {
+      setEmailError('')
+    } else {
+      setEmailError('Correo no valido!')
+    }
+  }
+
     return (
     <div>
          <div>
@@ -102,11 +115,16 @@ function Iniciosesion() {
   <form className="formulario" onSubmit={submitHandler} >
   <div class="mb-3">
         <label htmlFor="email" class="form-label"> Correo electronico:</label> <br/>
-        <input type="email" id="email" name="email" class="form-control" aria-describedby="emailHelp"/>
+        <input type="email" onChange={(e) => validateEmail(e)} id="email" name="email" class="form-control" aria-describedby="emailHelp" required/>
+        <span style={{
+                        fontWeight: 'bold',
+                         color: 'red',
+                         fontSize: '15px'
+                        }}>{emailError}</span>
           </div>
           <div class="mb-3">  
         <label htmlFor="password" class="form-label"> Contraseña </label> <br/>
-        <input type="password" id="password" class="form-control" /> <br/>
+        <input type="password" id="password" class="form-control" required/> <br/>
         <input type="submit" className="botonLogin" class="btn btn-primary btn-lg" value="Entrar" />
     </div>
 </form>

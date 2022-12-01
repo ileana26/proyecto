@@ -4,14 +4,14 @@ import { getDoc, updateDoc, doc } from 'firebase/firestore'
 import { db } from '../firebaseConfig/firebase'
 import { async } from '@firebase/util'
 import IndexAsesor from './IndexAsesor';
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
 import {TimePicker} from '@material-ui/pickers';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import './boton';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 
 const MySwal = withReactContent(Swal)
@@ -41,8 +41,26 @@ const EditarActividad  = () => {
             fechafinal: startDate2.toString(),
             horaFinal: horaFinal.toString(), 
             estado: estado.toString()}
-        await updateDoc(usuarion, data)
-        navigate('/showActividades')
+
+            Swal.fire({
+                title: '¿Esta seguro de guardar los cambios?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Guardar',
+                denyButtonText: `Cancelar`,
+              }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    updateDoc(usuarion, data)
+                    navigate('/showActividades')
+                  Swal.fire('¡Cambios guardados!', '', 'Hecho')
+                } else if (result.isDenied) {
+                  Swal.fire('Los cambios no se pudieron guardar', '', 'Info')
+                }
+              })
+
+
+        
 
     }
 
@@ -83,7 +101,7 @@ const EditarActividad  = () => {
                     value={nombreActi}
                     onChange={ (e) => setNombreActi(e.target.value)}
                     type="text"
-                    className='form-control'/>
+                    className='form-control'required/>
                     </div>
 
                     <div className='mb-3'>
@@ -92,17 +110,17 @@ const EditarActividad  = () => {
                     value={descripcion}
                     onChange={ (e) => setDescripcion(e.target.value)}
                     type="text"
-                    className='form-control'/>
+                    className='form-control'required/>
                     </div>
 
                     <div className='mb-3'>
                     <label className='form-label'>Fecha de inicio</label><br></br> 
-                    <DatePicker selected={startDate} onChange={(date:Date) => setStartDate(date)} />
+                    <DatePicker dateFormat="dd/MM/yy" selected={startDate} onChange={(date:Date) => setStartDate(date)} />
                     </div>
 
                     <div className='mb-3'>
                     <label className='form-label'> Fecha de termino</label> <br></br> 
-                    <DatePicker selected={startDate2} onChange={(date:Date) => setStartDate2(date)} />
+                    <DatePicker dateFormat="dd/MM/yy" selected={startDate2} onChange={(date:Date) => setStartDate2(date)} />
                     </div>
 
                     <div className='mb-3'>

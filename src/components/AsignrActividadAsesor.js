@@ -11,9 +11,12 @@ import { useEffect } from 'react';
 import {TimePicker} from '@material-ui/pickers';
 import DatePicker from "react-datepicker";
 import { useId } from 'react';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 
 const db2 = getFirestore();
+const MySwal = withReactContent(Swal)
 
 const AsignrActividadAsesor = () => {
 
@@ -86,7 +89,25 @@ const AsignrActividadAsesor = () => {
 
       console.log("submit",nombreActi, descripcion, fechainicio, fechafinal, horaFinal, estado);
 
-      registrar(nombreActi, descripcion, fechainicio, fechafinal, horaFinal, estado);
+      Swal.fire({
+        title: '¿Esta seguro de agregar esta actividad?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Guardar',
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          registrar(nombreActi, descripcion, fechainicio, fechafinal, horaFinal, estado);
+            navigate('/showActividades')
+          Swal.fire('¡Actividad guardarda!', '', 'Hecho')
+        } else if (result.isDenied) {
+          Swal.fire('La actividad no se pudo guardar', '', 'Info')
+        }
+      })
+
+
+      
 
   }
 
@@ -101,12 +122,12 @@ const AsignrActividadAsesor = () => {
             <form onSubmit={store} class="row g-3">
                     <div className='col-11'>
                       <label className='form-label'>Actividad</label>
-                      <input id='nombreActi' type="text" className='form-control'/>
+                      <input id='nombreActi' type="text" className='form-control' required/>
                     </div>
 
                     <div className='col-11'>
                       <label className='form-label'>Descripcion</label>
-                      <input id='descripcion' type="text" className='form-control'/>
+                      <input id='descripcion' type="text" className='form-control' required/>
                     </div>
 
                     <div className='col-md-4'>

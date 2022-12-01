@@ -4,13 +4,20 @@ import { getDoc, updateDoc, doc } from 'firebase/firestore'
 import { db } from '../firebaseConfig/firebase'
 import { async } from '@firebase/util'
 import { Indexh } from './Indexh'
+import validator from 'validator';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
+
 
 export const Edit = () => {
     const [nombre, setNombre] = useState('')
     const [app, setApp] = useState ('')
     const [apm, setApm] = useState ('')
     const [nombreusuario, setNombreUsuario] = useState ('')
-    const [contrasenia, setContrasenia] = useState ('')
+    const [conntrasenia, setContrasenia] = useState ('')
+    const [errorMessage, setErrorMessage] = useState('')
     
     const navigate = useNavigate()
     const {id} = useParams()
@@ -18,9 +25,26 @@ export const Edit = () => {
     const update = async (e) => {
         e.preventDefault()
         const usuarion = doc(db, "usuario", id)
-        const data = {nombre: nombre, app: app, apm: apm, nombreusuario: nombreusuario, contrasenia: contrasenia}
-        await updateDoc(usuarion, data)
-        navigate('/')
+        const data = {nombre: nombre, app: app, apm: apm, nombreusuario: nombreusuario, conntrasenia: conntrasenia}
+
+        Swal.fire({
+            title: '¿Esta seguro de guardar los cambios?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Guardar',
+            denyButtonText: `Cancelar`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                 updateDoc(usuarion, data)
+                navigate('/show')
+              Swal.fire('¡Cambios guardados!', '', 'Hecho')
+            } else if (result.isDenied) {
+              Swal.fire('Los cambios no se pudieron guardar', '', 'Info')
+            }
+          })
+
+        
     }
 
     const getUserid = async (id) => {
@@ -31,7 +55,7 @@ export const Edit = () => {
             setApp(usuarion.data().app)
             setApm(usuarion.data().apm)
             setNombreUsuario(usuarion.data().nombreusuario)
-            setContrasenia(usuarion.data().contrasenia)
+            setContrasenia(usuarion.data().conntrasenia)
         }else{
             console.log('No existe el usuario')
         }
@@ -40,6 +64,20 @@ export const Edit = () => {
     useEffect( () => {
         getUserid(id)
     }, [])
+
+    const validate = (value) => {
+  
+        if (validator.isStrongPassword(value, {
+            minLength: 8, minLowercase: 1,
+            minUppercase: 1, minNumbers: 1, minSymbols: 1
+        })) {
+          setErrorMessage('')
+        } else {
+          setErrorMessage('Contraseña débil')
+          setContrasenia(value)
+        }
+      }
+
 
   return (
     <div>
@@ -55,7 +93,7 @@ export const Edit = () => {
                     value={nombre}
                     onChange={ (e) => setNombre(e.target.value)}
                     type="text"
-                    className='form-control'/>
+                    className='form-control'required/>
                     </div>
 
                     <div className='mb-3'>
@@ -64,7 +102,7 @@ export const Edit = () => {
                     value={app}
                     onChange={ (e) => setApp(e.target.value)}
                     type="text"
-                    className='form-control'/>
+                    className='form-control'required/>
                     </div>
 
                     <div className='mb-3'>
@@ -73,7 +111,7 @@ export const Edit = () => {
                     value={apm}
                     onChange={ (e) => setApm(e.target.value)}
                     type="text"
-                    className='form-control'/>
+                    className='form-control'required/>
                     </div>
 
                     <div className='mb-3'>
@@ -82,16 +120,22 @@ export const Edit = () => {
                     value={nombreusuario}
                     onChange={ (e) => setNombreUsuario(e.target.value)}
                     type="text"
-                    className='form-control'/>
+                    className='form-control' required/>
                     </div>
 
                     <div className='mb-3'>
                     <label className='form-label'>Contrasenia</label>
                     <input 
-                    value={contrasenia}
-                    onChange={ (e) => setContrasenia(e.target.value)}
+                    value={conntrasenia}
+                    onChange={(e) => validate(e.target.value)}
                     type="text"
-                    className='form-control'/>
+                    className='form-control' required/>
+                     <span style={{
+          fontWeight: 'bold',
+          color: 'red',
+          fontSize: '15px'
+        }}>{errorMessage}
+        </span>
                     </div>
                 <button type="submit" className='btn btn-primary'>Editar</button>
             </form>

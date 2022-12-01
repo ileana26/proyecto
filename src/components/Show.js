@@ -36,20 +36,20 @@ const Show = () => {
     //alerta de eliminacion
     const confirmDelete = (id) => {
         MySwal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
+            title: '¿Estas seguro de eliminar este usuario?',
+            text: "Esta acción no se puede revertir",
+            icon: 'Atención',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Si, ¡Eliminar!'
           }).then((result) => {
             if (result.isConfirmed) {
                 deleteU(id)
               Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
+                '¡Eliminado!',
+                'El usuario fue eliminado.',
+                'Hecho'
               )
             }
           })
@@ -65,7 +65,7 @@ const Show = () => {
     <div className='container1'>
         <div className='row'>
             <div className='col'>
-                <h3 class="text-center">Alumnos registrados</h3> <br/>
+                <h3 class="text-center">Usuarios registrados</h3> <br/>
                 <table class="table">
                     <thead>
                         <tr> 

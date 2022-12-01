@@ -34,20 +34,20 @@ const ShowActividades = () => {
     //alerta de eliminacion
     const confirmDelete = (id) => {
         MySwal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
+            title: '¿Estas seguro de eliminar esta actividad?',
+            text: "Esta funcion no se puede revertir",
+            icon: '¡Atención!',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Si, ¡Eliminar!'
           }).then((result) => {
             if (result.isConfirmed) {
                 deleteU(id)
               Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
+                '¡Eliminada!',
+                'La actividad ha sido eliminada',
+                'Hecho'
               )
             }
           })
@@ -88,7 +88,7 @@ const ShowActividades = () => {
                                         <Link to={`/editarActividad/${mostrr.id}`} className="btn btn-light">Editar</Link>
                                     </td>
                                     <td>
-                                    <Link to={`/editarActividad/${mostrr.id}`} class="btn btn-warning">Ver actividad</Link>
+                                    <button onClick={() => {confirmDelete(mostrr.id)}} className="btn btn-danger">Eliminar actividad</button>
                                       </td>
                             </tr>
                         ))}
@@ -96,7 +96,7 @@ const ShowActividades = () => {
                 </table>
 
                 <div >
-                    <Link to="/asignarActividad" className='btn btn-success mt-2 mb-2'> Create</Link>
+                    <Link to="/asignarActividad" className='btn btn-success mt-2 mb-2'> Subir actividad</Link>
                 </div>
 
                 <div >
