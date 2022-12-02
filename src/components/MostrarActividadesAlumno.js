@@ -74,18 +74,10 @@ const MostrarActividadesAlumno = () => {
     })
 }
 
-async function  urlObt(url){
-  
-  const archivos = doc(db, "urls");
- 
-  await updateDoc(archivos, {
-    url: arrayUnion(url),
-  });
-
-  
-}
 
 function obtenerURL (file){
+
+  const storage = getStorage();
   getDownloadURL(ref(storage, file))
 .then((url) => {
   // `url` is the download URL for 'images/stars.jpg'
@@ -104,7 +96,6 @@ function obtenerURL (file){
   img.setAttribute('src', url);*/
   console.log("url del archivo ",url)
   setImageUpload(url)
-  urlObt(url)
 })
 .catch((error) => {
   console.error(error)
