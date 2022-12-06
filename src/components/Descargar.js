@@ -18,7 +18,7 @@ import {v4} from 'uuid';
 
 const Descargar = () => {
 
-    const [imageUpload, setImageUpload] = useState(null);
+    /*const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
   const storage = getStorage();
 
@@ -41,7 +41,7 @@ const Descargar = () => {
         });
       });
     });
-  }, []);
+  }, []);*/
 
     /*const [imagenUpload, setImagenUpload] = useState(null);
     const storage = getStorage();
@@ -84,6 +84,38 @@ const Descargar = () => {
         }, []    
         );*/
 
+
+       /* const storage = getStorage();
+
+        const listRef = ref(storage, `actividades/`);
+
+          listAll(listRef) 
+            .then((res) => {
+              res.prefixes.forEach((folderRef) => {
+                // All the prefixes under listRef.
+                // You may call listAll() recursively on them.
+              });
+              res.items.forEach((itemRef) => {
+                itemRef.getDownloadURL().then((url)=>
+                console.log("url: " + url)
+                );
+
+                // All the items under listRef.
+              });
+            }).catch((error) => {
+              // Uh-oh, an error occurred!
+            });
+          // [END storage_list_all]
+        
+          const listAllDocs = () => (
+            listAll(`actividades/`)
+          )*/
+
+        
+
+
+          
+
   return (
     <div>
     <IndexAsesor/>
@@ -91,18 +123,7 @@ const Descargar = () => {
         <div className='row'>
             <div className='col'>
                 <h3 class="text-center">Lista de actividades</h3> <br/>
-                <input
-        type="file"
-        onChange={(event) => {
-          setImageUpload(event.target.files[0]);
-        }}
-      />
-      <button onClick={uploadFile}> Upload Image</button>
-      {imageUrls.map((url) => {
-        <input type="file"> 
-            {url.toString()} 
-        </input>
-      })}
+                <button onClick={listAllDocs}>Listar</button>
             </div>
 
         </div>

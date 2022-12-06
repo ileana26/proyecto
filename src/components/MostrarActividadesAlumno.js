@@ -13,16 +13,21 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import IndexA from './IndexAlumno';
 import storage from '../firebaseConfig/firebase'
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import { addDoc } from 'firebase/firestore';
 import {v4} from 'uuid';
+
 
 
 const MostrarActividadesAlumno = () => {
 
+    const [Url, setUrl] = useState('');
 
     const [alumnos, setAlumnos] = useState([]);
+    const [documentos, setDocumentos] = useState([]);
     const [file, setFile] = useState(null);
     const userCollection = query(collection(db, "actividad"), where("estado", "==", "Disponible"));
+    const docCollection = collection(db, "documentos");
 
     const getUser = async() => {
         const data = await getDocs(userCollection)
@@ -34,8 +39,18 @@ const MostrarActividadesAlumno = () => {
        // console.log(mostrar)
     }
 
+    const getDoc = async() => {
+      const data = await getDocs(docCollection)
+
+      setDocumentos(
+          data.docs.map((doc) => ({...doc.data(), id:doc.id}))
+      )
+     // console.log(mostrar)
+  }
+
     useEffect(() => {
         getUser()
+        getDoc()
     }, [])
 
     const handleSubmit = (e) =>{
@@ -58,12 +73,23 @@ const MostrarActividadesAlumno = () => {
           })
 
     };
+//////////////////////////////////////////////77
+    
 
     async function  uploadFile(file){
         const storage = getStorage();
-const storageRef = ref(storage, `actividades/${file.name + v4()}`);
-       return await  uploadBytes(storageRef, file) 
+    const storageRef = ref(storage, `actividades/${file.name + v4()}`); 
+       uploadBytes(storageRef, file) 
+
+       await addDoc(collection(db, "documentos"), {
+        name: storageRef.name,
+        ruta: storageRef.fullPath
+      });
 }
+    
+    //.then(()=>bandera=true)
+    
+    
    /* const [alumnos, setAlumnos] = useState([]);
     const [nombreA, setNombre] = useState('');
     const [loading, setLoading] = useState(false);
@@ -97,6 +123,40 @@ const storageRef = ref(storage, `actividades/${file.name + v4()}`);
     }, []);
 */
 
+        function descargarF (urldoc){
+
+          const storage = getStorage();
+          getDownloadURL(ref(storage, `actividades/${urldoc}`))
+            .then((url) => {
+              // `url` is the download URL for 'images/stars.jpg'
+          
+              // This can be downloaded directly:
+              const xhr = new XMLHttpRequest();
+              xhr.responseType = 'blob';
+              xhr.onload = (event) => {
+                const blob = xhr.response;
+              };
+              xhr.open('GET', url);
+              xhr.send();
+          
+              // Or inserted into an <img> element
+              /*const img = document.getElementById('myimg');
+              img.setAttribute('src', url);*/
+              console.log("url del archivo ",url)
+              setDocumentos(url)
+
+              /*{documentos.map((documento) => (
+                <tr key={documento.id}>
+                    <td><a href= {setDocumentos(url)} download="newfilename">Download the pdf</a></td>   
+                </tr>
+              ))}*/
+            })
+            .catch((error) => {
+              console.error(error)
+              });
+
+          }
+
   return (
     <div>
           <IndexA/>
@@ -126,10 +186,20 @@ const storageRef = ref(storage, `actividades/${file.name + v4()}`);
                                     onChange={e => setFile(e.target.files[0])}
                                     className="btn btn-light" /> </td>
                                   <td>  <button className='btn btn-primary'> Subir</button> </td>
-                                    </form> </td>
+
+                                  </form> </td>
                             </tr>
-                        ))}
+                        ))}      
                     </tbody>
+                </table>
+
+                <table>
+                {documentos.map((documento) => (
+                <tr key={documento.id}>
+                    descargarF(documentos.name)
+                    <td><a href= {""} download="newfilename">Download the pdf</a></td>
+                </tr>
+                ))}
                 </table>
 
             </div>
