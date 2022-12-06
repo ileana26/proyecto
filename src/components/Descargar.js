@@ -18,10 +18,20 @@ import {v4} from 'uuid';
 
 const Descargar = () => {
 
-  const [imageUpload, setImageUpload] = useState(null);
+    const [imageUpload, setImageUpload] = useState(null);
+  const [imageUrls, setImageUrls] = useState([]);
+  const storage = getStorage();
 
 
-  function descargarF (){
+  useEffect(() => {
+    listAll(imagesListRef).then((response) => {
+      response.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          setImageUrls((prev) => [...prev, url]);
+        });
+      });
+    });
+  }, []);
 
     const storage = getStorage();
     getDownloadURL(ref(storage, 'actividades/ejemplo.pdf003ec36a-d4ca-43f2-b9f3-800851a0020a'))
@@ -48,10 +58,17 @@ const Descargar = () => {
       });
   }
 
-  useEffect(() => {
-descargarF()
-  })
-
+    useEffect(() => {
+        listAll(imageListRef).then((response) => {
+            response.items.forEach((item) => {
+                getDownloadURL(item).then((url) => {
+                    setImagenUpload((prev) => [...prev, url]);
+                })
+            })
+            //console.log(response)
+        });
+        }, []    
+        );*/
 
   return (
     <div>

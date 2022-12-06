@@ -14,19 +14,20 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import IndexA from './IndexAlumno';
 import storage from '../firebaseConfig/firebase'
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import { addDoc } from 'firebase/firestore';
 import {v4} from 'uuid';
 import { getDownloadURL, listAll  } from "firebase/storage";
 
+
 const MostrarActividadesAlumno = () => {
 
+    const [Url, setUrl] = useState('');
 
     const [alumnos, setAlumnos] = useState([]);
+    const [documentos, setDocumentos] = useState([]);
     const [file, setFile] = useState(null);
     const userCollection = query(collection(db, "actividad"), where("estado", "==", "Disponible"));
-    const [imageUpload, setImageUpload] = useState(null);
-    let auxiliar=[]
-    let contador = 0;
 
     const getUser = async() => {
         const data = await getDocs(userCollection)
@@ -38,8 +39,18 @@ const MostrarActividadesAlumno = () => {
        // console.log(mostrar)
     }
 
+    const getDoc = async() => {
+      const data = await getDocs(docCollection)
+
+      setDocumentos(
+          data.docs.map((doc) => ({...doc.data(), id:doc.id}))
+      )
+     // console.log(mostrar)
+  }
+
     useEffect(() => {
         getUser()
+        getDoc()
     }, [])
 
     const handleSubmit = (e) =>{
@@ -62,46 +73,18 @@ const MostrarActividadesAlumno = () => {
           })
 
     };
+//////////////////////////////////////////////77
+    
 
     async function  uploadFile(file){
         const storage = getStorage();
-    const storageRef = ref(storage, `actividades/${file.name + v4()}`);
- 
-    uploadBytes(storageRef, file).then(() =>{
-     
-   obtenerURL(storageRef)
-
-    })
+const storageRef = ref(storage, `actividades/${file.name + v4()}`);
+       return await  uploadBytes(storageRef, file) 
 }
-
-
-function obtenerURL (file){
-
-  const storage = getStorage();
-  getDownloadURL(ref(storage, file))
-.then((url) => {
-  // `url` is the download URL for 'images/stars.jpg'
-
-  // This can be downloaded directly:
-  const xhr = new XMLHttpRequest();
-  xhr.responseType = 'blob';
-  xhr.onload = (event) => {
-    const blob = xhr.response;
-  };
-  xhr.open('GET', url);
-  xhr.send();
-
-  // Or inserted into an <img> element
-  /*const img = document.getElementById('myimg');
-  img.setAttribute('src', url);*/
-  console.log("url del archivo ",url)
-  setImageUpload(url)
-})
-.catch((error) => {
-  console.error(error)
-});
-
-}
+    
+    //.then(()=>bandera=true)
+    
+    
    /* const [alumnos, setAlumnos] = useState([]);
     const [nombreA, setNombre] = useState('');
     const [loading, setLoading] = useState(false);
@@ -135,6 +118,40 @@ function obtenerURL (file){
     }, []);
 */
 
+        function descargarF (urldoc){
+
+          const storage = getStorage();
+          getDownloadURL(ref(storage, `actividades/${urldoc}`))
+            .then((url) => {
+              // `url` is the download URL for 'images/stars.jpg'
+          
+              // This can be downloaded directly:
+              const xhr = new XMLHttpRequest();
+              xhr.responseType = 'blob';
+              xhr.onload = (event) => {
+                const blob = xhr.response;
+              };
+              xhr.open('GET', url);
+              xhr.send();
+          
+              // Or inserted into an <img> element
+              /*const img = document.getElementById('myimg');
+              img.setAttribute('src', url);*/
+              console.log("url del archivo ",url)
+              setDocumentos(url)
+
+              /*{documentos.map((documento) => (
+                <tr key={documento.id}>
+                    <td><a href= {setDocumentos(url)} download="newfilename">Download the pdf</a></td>   
+                </tr>
+              ))}*/
+            })
+            .catch((error) => {
+              console.error(error)
+              });
+
+          }
+
   return (
     <div>
           <IndexA/>
@@ -164,15 +181,13 @@ function obtenerURL (file){
                                     onChange={e => setFile(e.target.files[0])}
                                     className="btn btn-light" /> </td>
                                   <td>  <button className='btn btn-primary'> Subir</button> </td>
-                                    </form> </td>
+
+                                  </form> </td>
                             </tr>
-                        ))}
+                        ))}      
                     </tbody>
                 </table>
-                <div>
-      <a href={imageUpload} download="newfilename">Download the pdf</a>
-        <img id="myimg"></img>
-      </div>
+
             </div>
 
         </div>
