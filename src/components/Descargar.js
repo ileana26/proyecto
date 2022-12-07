@@ -12,26 +12,28 @@ import firebase from 'firebase/compat/app'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import IndexAsesor from './IndexAsesor';
-
 import storage from '../firebaseConfig/firebase'
 import { getStorage, ref, getDownloadURL, listAll, uploadBytes  } from "firebase/storage";
 import {v4} from 'uuid';
-
-require('firebase/storage')
+import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/storage';
 
 const Descargar = () => {
 
     const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
+  const docCollection = collection(db, "documentos");
 
-
+  const storage = getStorage();
+  
   function listAll() {
    
   
     // [START storage_list_all]
     // Create a reference under which you want to list
-    var listRef = storageRef.ref('actividades/');
-    const storageRef = firebase.storage().ref();
+    var listRef = ref('actividades/');
+   
   
     // Find all the prefixes and items.
     listRef.listAll()
@@ -54,8 +56,8 @@ const Descargar = () => {
     // [START storage_list_paginate]
     async function pageTokenExample(){
       // Create a reference under which you want to list
-      const storageRef = firebase.storage().ref();
-      var listRef = storageRef.ref('actividades/');
+  
+      var listRef = ref('actividades/');
   
       // Fetch the first page of 100.
       var firstPage = await listRef.list({ maxResults: 100});
@@ -78,8 +80,8 @@ const Descargar = () => {
   }
 
   function listAll(folder){
-    const storageRef = firebase.storage().ref();
-    var listRef = storageRef.child(folder);
+
+    var listRef = storage.child(folder);
     
 
     listRef.listAll().then((res) => {
