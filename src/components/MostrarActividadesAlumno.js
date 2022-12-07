@@ -4,6 +4,7 @@ import {
   serverTimestamp,
   arrayUnion,
 } from 'firebase/firestore';
+import { getFirestore } from "@firebase/firestore";
 import { Link } from 'react-router-dom'
 import { collection, getDoc, onSnapshot, setDoc, query, 
     where, orderBy, limit, getDocs, deleteDoc, doc } from 'firebase/firestore'
@@ -21,6 +22,7 @@ import { listAll  } from "firebase/storage";
 
 
 const MostrarActividadesAlumno = () => {
+
 
     const [alumnos, setAlumnos] = useState([]);
     const [documentos, setDocumentos] = useState([]);
@@ -49,7 +51,7 @@ const MostrarActividadesAlumno = () => {
 
     useEffect(() => {
         getUser()
-     //   getDoc()
+      //  getDoc()
     }, [])
 
     const handleSubmit = (e) =>{
@@ -71,7 +73,8 @@ const MostrarActividadesAlumno = () => {
             }
           })
 
-    };
+
+        };
 //////////////////////////////////////////////77
     
 
@@ -82,10 +85,12 @@ const storageRef = ref(storage, `actividades/${file.name + v4()}`);
 
  await addDoc(collection(db, "documentos"), {
   name: storageRef.name,
-  ruta: storageRef.fullPath
+  ruta: storageRef.fullPath,
 });
+
 }
     
+
     //.then(()=>bandera=true)
     
     
@@ -122,7 +127,7 @@ const storageRef = ref(storage, `actividades/${file.name + v4()}`);
     }, []);
 */
 
-        function descargarF (urldoc){
+        async function descargarF (urldoc){
 
           const storage = getStorage();
           getDownloadURL(ref(storage, `actividades/${urldoc}`))
@@ -144,7 +149,6 @@ const storageRef = ref(storage, `actividades/${file.name + v4()}`);
               img.setAttribute('src', url);*/
               console.log("url del archivo ",url)
               setDocumentos(url)
-
               /*{documentos.map((documento) => (
                 <tr key={documento.id}>
                     <td><a href= {setDocumentos(url)} download="newfilename">Download the pdf</a></td>   
@@ -156,6 +160,10 @@ const storageRef = ref(storage, `actividades/${file.name + v4()}`);
               });
 
           }
+        
+
+
+        
 
   return (
     <div>
@@ -195,12 +203,12 @@ const storageRef = ref(storage, `actividades/${file.name + v4()}`);
                 </table>
 
                 <table>
-                {documentos.map((documento) => (
+                {documentos.map((documento => (
                 <tr key={documento.id}>
                     <tr>{descargarF(documento.name)}</tr>
                     <td><a href= "" download="newfilename">Download the pdf</a></td>
                 </tr>
-                ))}
+                )))}
                 </table>
             </div>
 

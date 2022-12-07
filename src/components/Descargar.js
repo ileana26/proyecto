@@ -18,90 +18,90 @@ import {v4} from 'uuid';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/storage';
+import { addDoc } from 'firebase/firestore';
 
 const Descargar = () => {
 
     const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
+  const [alumnos, setAlumnos] = useState([]);
+    const [documentos, setDocumentos] = useState([]);
+    const [file, setFile] = useState(null);
   const docCollection = collection(db, "documentos");
 
   const storage = getStorage();
+  let arreglo = [];
+  let xhr;
   
-  function listAll() {
-   
-  
-    // [START storage_list_all]
-    // Create a reference under which you want to list
-    var listRef = ref('actividades/');
-   
-  
-    // Find all the prefixes and items.
-    listRef.listAll()
-      .then((res) => {
-        res.prefixes.forEach((folderRef) => {
-          // All the prefixes under listRef.
-          // You may call listAll() recursively on them.
-        });
-        res.items.forEach((itemRef) => {
-          // All the items under listRef.
-        });
-      }).catch((error) => {
-        // Uh-oh, an error occurred!
-      });
-    // [END storage_list_all]
-  }
-  
-  function listPaginate() {
+  const getDoc = async() => {
+    const data = await getDocs(docCollection)
 
-    // [START storage_list_paginate]
-    async function pageTokenExample(){
-      // Create a reference under which you want to list
-  
-      var listRef = ref('actividades/');
-  
-      // Fetch the first page of 100.
-      var firstPage = await listRef.list({ maxResults: 100});
-  
-      // Use the result.
-      // processItems(firstPage.items)
-      // processPrefixes(firstPage.prefixes)
-  
-      // Fetch the second page if there are more elements.
-      if (firstPage.nextPageToken) {
-        var secondPage = await listRef.list({
-          maxResults: 100,
-          pageToken: firstPage.nextPageToken,
-        });
-        // processItems(secondPage.items)
-        // processPrefixes(secondPage.prefixes)
-      }
-    }
-    // [END storage_list_paginate]
-  }
+    setDocumentos(
+        data.docs.map((doc) => ({...doc.data(), id:doc.id}))
+    )
+   // console.log(mostrar)
+}
 
-  function listAll(folder){
-
-    var listRef = storage.child(folder);
-    
-
-    listRef.listAll().then((res) => {
-      res.prefixes.forEach((folderRef) => {
-        res.items.forEach((itemRef) => {
-          console.log("iten ref: " + itemRef);
-          itemRef.getDownloadURL().then((url) => {
-            console.log("download url: " + url);
-          });
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    })
-  }
-
-  useEffect(() => {
-    listAll()
+useEffect(() => {
+  getDoc()
+  descargarF()
 }, [])
+
+async function  uploadFile(file){
+  const storage = getStorage();
+
+ await addDoc(collection(db, "documentos"), {
+  name: storage.name,
+  ruta: storage.fullPath
+});
+
+}
+
+function descargarF (urldoc){
+
+  const storage = getStorage();
+  console.log(urldoc);
+  getDownloadURL(ref(storage, `actividades/${urldoc}`))
+    .then((url) => {
+      // `url` is the download URL for 'images/stars.jpg'
+  
+      // This can be downloaded directly:
+      const xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = (event) => {
+        const blob = xhr.response;
+      };
+      xhr.open('GET', url);
+      xhr.send();
+      
+  
+      // Or inserted into an <img> element
+      /*const img = document.getElementById('myimg');
+      img.setAttribute('src', url);*/
+      console.log("url del archivo ",url)
+      setDocumentos(url)
+      arreglo.push(url)
+
+      {<a href={arreglo}></a>}
+      /*{documentos.map((documento) => (
+        <tr key={documento.id}>
+            <td><a href= {setDocumentos(url)} download="newfilename">Download the pdf</a></td>   
+        </tr>
+      ))}*/
+    })
+    .catch((error) => {
+      console.error(error)
+      });
+
+  }
+
+    function urls(documento){
+    
+      return documento.name;
+
+    }
+
+ 
 
   return (
     <div>
@@ -114,12 +114,31 @@ const Descargar = () => {
         type="file"
        
       />
-      <button > Upload Image</button>
-    
-      <div>
-      <a href={imageUpload} download="newfilename">Download the pdf</a>
-        <img id="myimg"></img>
-      </div>
+
+<table class="table">
+                    <thead>
+                        <tr> 
+                            <th>Actividad</th>
+                            <th>Descripcion</th>
+                            <th>Fecha limite</th>
+                            <th>Accion</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      
+                    {documentos.map((alumno) => (
+                            <tr key={alumno.id}>
+                                   <tr>{alumno.name}</tr>
+                                    <td></td>
+                            </tr>
+                        ))}      
+                    </tbody>
+                </table>
+
+
+ 
+  
             </div>
 
         </div>
