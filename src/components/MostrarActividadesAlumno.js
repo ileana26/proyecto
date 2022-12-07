@@ -17,17 +17,16 @@ import storage from '../firebaseConfig/firebase'
 import { getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import { addDoc } from 'firebase/firestore';
 import {v4} from 'uuid';
-import { getDownloadURL, listAll  } from "firebase/storage";
+import { listAll  } from "firebase/storage";
 
 
 const MostrarActividadesAlumno = () => {
-
-    const [Url, setUrl] = useState('');
 
     const [alumnos, setAlumnos] = useState([]);
     const [documentos, setDocumentos] = useState([]);
     const [file, setFile] = useState(null);
     const userCollection = query(collection(db, "actividad"), where("estado", "==", "Disponible"));
+    const docCollection = collection(db, "documentos");
 
     const getUser = async() => {
         const data = await getDocs(userCollection)
@@ -76,10 +75,15 @@ const MostrarActividadesAlumno = () => {
 //////////////////////////////////////////////77
     
 
-    async function  uploadFile(file){
-        const storage = getStorage();
-const storageRef = ref(storage, `actividades/${file.name + v4()}`);
-       return await  uploadBytes(storageRef, file) 
+async function  uploadFile(file){
+  const storage = getStorage();
+const storageRef = ref(storage, `actividades/${file.name + v4()}`); 
+ uploadBytes(storageRef, file) 
+
+ await addDoc(collection(db, "documentos"), {
+  name: storageRef.name,
+  ruta: storageRef.fullPath
+});
 }
     
     //.then(()=>bandera=true)
@@ -133,6 +137,7 @@ const storageRef = ref(storage, `actividades/${file.name + v4()}`);
               };
               xhr.open('GET', url);
               xhr.send();
+              
           
               // Or inserted into an <img> element
               /*const img = document.getElementById('myimg');
@@ -180,6 +185,7 @@ const storageRef = ref(storage, `actividades/${file.name + v4()}`);
                                     name="" id="" 
                                     onChange={e => setFile(e.target.files[0])}
                                     className="btn btn-light" /> </td>
+
                                   <td>  <button className='btn btn-primary'> Subir</button> </td>
 
                                   </form> </td>
@@ -188,6 +194,14 @@ const storageRef = ref(storage, `actividades/${file.name + v4()}`);
                     </tbody>
                 </table>
 
+                <table>
+                {documentos.map((documento) => (
+                <tr key={documento.id}>
+                    <tr>{descargarF(documento.name)}</tr>
+                    <td><a href= "" download="newfilename">Download the pdf</a></td>
+                </tr>
+                ))}
+                </table>
             </div>
 
         </div>
