@@ -49,7 +49,7 @@ const MostrarActividadesAlumno = () => {
 
     useEffect(() => {
         getUser()
-        getDoc()
+     //   getDoc()
     }, [])
 
     const handleSubmit = (e) =>{
