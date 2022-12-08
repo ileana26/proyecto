@@ -31,37 +31,43 @@ const Descargar = () => {
 
   const storage = getStorage();
   let arreglo = [];
-  let xhr;
+  let url;
   
   const getDoc = async() => {
     const data = await getDocs(docCollection)
 
     setDocumentos(
-        data.docs.map((doc) => ({...doc.data(), id:doc.id}))
+        data.docs.map((doc) => ({
+          ...doc.data(), 
+          id:doc.id
+        }
+        ))
     )
-   // console.log(mostrar)
+
+
+    
 }
 
 useEffect(() => {
   getDoc()
-  descargarF()
 }, [])
 
-async function  uploadFile(file){
+async function  uploadFile(){
   const storage = getStorage();
 
  await addDoc(collection(db, "documentos"), {
   name: storage.name,
-  ruta: storage.fullPath
+  ruta: storage.fullPath,
 });
+
 
 }
 
 function descargarF (urldoc){
 
   const storage = getStorage();
-  console.log(urldoc);
-  getDownloadURL(ref(storage, `actividades/${urldoc}`))
+  console.log("descarga" + urldoc);
+  getDownloadURL(ref(storage, `documentos/${urldoc}`))
     .then((url) => {
       // `url` is the download URL for 'images/stars.jpg'
   
@@ -81,8 +87,8 @@ function descargarF (urldoc){
       console.log("url del archivo ",url)
       setDocumentos(url)
       arreglo.push(url)
+      console.log("url del arreglo ",arreglo)
 
-      {<a href={arreglo}></a>}
       /*{documentos.map((documento) => (
         <tr key={documento.id}>
             <td><a href= {setDocumentos(url)} download="newfilename">Download the pdf</a></td>   
@@ -95,14 +101,6 @@ function descargarF (urldoc){
 
   }
 
-    function urls(documento){
-    
-      return documento.name;
-
-    }
-
- 
-
   return (
     <div>
     <IndexAsesor/>
@@ -110,19 +108,13 @@ function descargarF (urldoc){
         <div className='row'>
             <div className='col'>
                 <h3 class="text-center">Lista de actividades</h3> <br/>
-                <input
-        type="file"
-       
-      />
+              
 
 <table class="table">
                     <thead>
                         <tr> 
                             <th>Actividad</th>
-                            <th>Descripcion</th>
-                            <th>Fecha limite</th>
-                            <th>Accion</th>
-                            <th></th>
+                          
                         </tr>
                     </thead>
                     <tbody>
@@ -130,6 +122,7 @@ function descargarF (urldoc){
                     {documentos.map((alumno) => (
                             <tr key={alumno.id}>
                                    <tr>{alumno.name}</tr>
+                                   <tr>{descargarF(alumno.name)}</tr>
                                     <td></td>
                             </tr>
                         ))}      

@@ -29,6 +29,7 @@ const MostrarActividadesAlumno = () => {
     const [file, setFile] = useState(null);
     const userCollection = query(collection(db, "actividad"), where("estado", "==", "Disponible"));
     const docCollection = collection(db, "documentos");
+    let arreglo = [];
 
     const getUser = async() => {
         const data = await getDocs(userCollection)
@@ -45,6 +46,7 @@ const MostrarActividadesAlumno = () => {
 
       setDocumentos(
           data.docs.map((doc) => ({...doc.data(), id:doc.id}))
+
       )
      // console.log(mostrar)
   }
@@ -83,58 +85,26 @@ async function  uploadFile(file){
 const storageRef = ref(storage, `actividades/${file.name + v4()}`); 
  uploadBytes(storageRef, file) 
 
+ console.log(storageRef.name)
+
+// descargarF(storageRef.name)
+
  await addDoc(collection(db, "documentos"), {
   name: storageRef.name,
-  ruta: storageRef.fullPath,
-});
+  ruta: storageRef.fullPath
+   })
 
 }
     
+       async function descargarF (urldoc){
 
-    //.then(()=>bandera=true)
-    
-    
-   /* const [alumnos, setAlumnos] = useState([]);
-    const [nombreA, setNombre] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [app, setApp] = useState([]);
-    const [apm, setApm] = useState([]);
-    const [rol, setRol] = useState('');
-
-    useEffect(() => {
-        const q = query(collection(db, "actividad"), where("estado", "==", "Disponible"));
-        setLoading(true);
-    
-    const nom = onSnapshot(q, (querySnapshot) => {
-      const cities = [];
-      querySnapshot.forEach((doc) => {
-          cities.push(
-          doc.data().nombreActi,
-          doc.data().descripcion,
-          doc.data().fechafinal
-          );
-      });
-      console.log("Actividad", cities.join(", "));
-      setAlumnos(cities);
-          setLoading(false);
-    });
-    
-    return () => {
-      nom();
-    };
-    
-    // eslint-disable-next-line
-    }, []);
-*/
-
-        async function descargarF (urldoc){
+          console.log("recibi: " + urldoc)
 
           const storage = getStorage();
-          getDownloadURL(ref(storage, `actividades/${urldoc}`))
+
+          await getDownloadURL(ref(storage, `actividades/${urldoc}`))
             .then((url) => {
-              // `url` is the download URL for 'images/stars.jpg'
-          
-              // This can be downloaded directly:
+            console.log(url)
               const xhr = new XMLHttpRequest();
               xhr.responseType = 'blob';
               xhr.onload = (event) => {
@@ -142,23 +112,19 @@ const storageRef = ref(storage, `actividades/${file.name + v4()}`);
               };
               xhr.open('GET', url);
               xhr.send();
-              
-          
-              // Or inserted into an <img> element
-              /*const img = document.getElementById('myimg');
-              img.setAttribute('src', url);*/
+             
               console.log("url del archivo ",url)
               setDocumentos(url)
-              /*{documentos.map((documento) => (
-                <tr key={documento.id}>
-                    <td><a href= {setDocumentos(url)} download="newfilename">Download the pdf</a></td>   
-                </tr>
-              ))}*/
+              
+             
             })
             .catch((error) => {
               console.error(error)
               });
-
+      /*  await addDoc(collection(db, "urls"), {
+          name: urls
+           })*/
+          
           }
         
 
