@@ -72,6 +72,7 @@ const Show = () => {
                             <th>Nombre</th>
                             <th>Apellido paterno</th>
                             <th>Apellido Materno</th>
+                            <th>Rol</th>
                             <th>Accion</th>
                             <th></th>
                         </tr>
@@ -82,6 +83,7 @@ const Show = () => {
                                     <td>{mostrr.nombre}</td>
                                     <td>{mostrr.app}</td>
                                     <td>{mostrr.apm}</td>
+                                    <td>{mostrr.rol}</td>
                                     <td>
                                         <Link to={`/edit/${mostrr.id}`} className="btn btn-light">Editar</Link>
                                     </td>
